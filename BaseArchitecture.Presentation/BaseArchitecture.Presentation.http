@@ -1,0 +1,6 @@
+@BaseArchitecture.Presentation_HostAddress = http://localhost:5008
+
+GET {{BaseArchitecture.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

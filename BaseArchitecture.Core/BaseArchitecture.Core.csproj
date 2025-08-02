@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BaseArchitecture.Domain\BaseArchitecture.Domain.csproj" />
+    <ProjectReference Include="..\BaseArchitecture.Infrastructure\BaseArchitecture.Infrastructure.csproj" />
+    <ProjectReference Include="..\BaseArchitecture.Service\BaseArchitecture.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\User\Commands\Handlers\" />
+    <Folder Include="Features\User\Commands\DTO\" />
+    <Folder Include="Features\User\Commands\Request Models\" />
+    <Folder Include="Features\User\Commands\Validators\" />
+    <Folder Include="Features\User\" />
+    <Folder Include="Features\User\Queries\Handlers\" />
+    <Folder Include="Features\User\Queries\DTO\" />
+    <Folder Include="Features\User\Queries\Request Models\" />
+    <Folder Include="Mapping\UserMapping\CommandMapping\" />
+    <Folder Include="Mapping\UserMapping\QuaryMapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+  </ItemGroup>
+
+</Project>
