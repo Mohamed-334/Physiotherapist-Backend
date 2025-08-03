@@ -8,6 +8,7 @@ namespace BaseArchitecture.Infrastructure.Context.Config
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("User");
         }
     }
 }

@@ -24,7 +24,14 @@
   <ItemGroup>
     <ProjectReference Include="..\BaseArchitecture.Domain\BaseArchitecture.Domain.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<EmbeddedResource Update="Shared\Localization\AppLocalization.Ar.resx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Shared\Localization\AppLocalization.En.resx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
   <ItemGroup>
     <Folder Include="RepositoryInterfaces\" />
     <Folder Include="Repository\" />

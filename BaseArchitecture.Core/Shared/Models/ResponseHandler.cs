@@ -1,18 +1,32 @@
-﻿using System.Net;
+﻿using BaseArchitecture.Infrastructure.Shared.Localization;
+using Microsoft.Extensions.Localization;
+using System.Net;
 
 namespace BaseArchitecture.Core.Shared.Models
 {
     public class ResponseHandler
     {
 
-        public ResponseHandler() { }
-        public Response<T> Deleted<T>(string? msg)
+        #region Fields
+        private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
+        #endregion
+
+        #region Constructor
+        public ResponseHandler(IStringLocalizer<AppLocalization> stringLocalizer)
+        {
+            _stringLocalizer = stringLocalizer;
+        }
+        #endregion
+
+        #region Methods
+
+        public Response<T> Deleted<T>(string? msg = null)
         {
             return new Response<T>()
             {
                 StatusCode = HttpStatusCode.OK,
                 Succeeded = true,
-                Message = msg ?? "Deleted Successfully"
+                Message = msg ?? _stringLocalizer[AppLocalizationKeys.Deleted]
             };
         }
         public Response<T> Success<T>(T entity, string? msg = null, object Meta = null)
@@ -22,7 +36,7 @@ namespace BaseArchitecture.Core.Shared.Models
                 Data = entity,
                 StatusCode = HttpStatusCode.OK,
                 Succeeded = true,
-                Message = msg ?? "Success",
+                Message = msg ?? _stringLocalizer[AppLocalizationKeys.Success],
                 Meta = Meta
             };
         }
@@ -32,7 +46,7 @@ namespace BaseArchitecture.Core.Shared.Models
             {
                 StatusCode = HttpStatusCode.Unauthorized,
                 Succeeded = true,
-                Message = msg ?? "UnAuthorized"
+                Message = msg ?? _stringLocalizer[AppLocalizationKeys.UnAuthorized]
             };
         }
         public Response<T> BadRequest<T>(string Message = null)
@@ -41,16 +55,16 @@ namespace BaseArchitecture.Core.Shared.Models
             {
                 StatusCode = HttpStatusCode.BadRequest,
                 Succeeded = false,
-                Message = Message == null ? "Bad Request" : Message
+                Message = Message == null ? _stringLocalizer[AppLocalizationKeys.BadRequest] : Message
             };
         }
-        public Response<T> UnprocessableContent<T>(string Message = null)
+        public Response<T> UnprocessableEntity<T>(string Message = null)
         {
             return new Response<T>()
             {
-                StatusCode = HttpStatusCode.UnprocessableContent,
+                StatusCode = HttpStatusCode.UnprocessableEntity,
                 Succeeded = false,
-                Message = Message == null ? "Validation Error" : Message
+                Message = Message == null ? _stringLocalizer[AppLocalizationKeys.UnprocessableEntity] : Message
             };
         }
         public Response<T> NotFound<T>(string message = null)
@@ -59,7 +73,7 @@ namespace BaseArchitecture.Core.Shared.Models
             {
                 StatusCode = HttpStatusCode.NotFound,
                 Succeeded = false,
-                Message = message == null ? "Not Found" : message
+                Message = message == null ? _stringLocalizer[AppLocalizationKeys.NotFound] : message
             };
         }
 
@@ -70,9 +84,10 @@ namespace BaseArchitecture.Core.Shared.Models
                 Data = entity,
                 StatusCode = HttpStatusCode.Created,
                 Succeeded = true,
-                Message = msg ?? "Created Successfully",
+                Message = msg ?? _stringLocalizer[AppLocalizationKeys.Created],
                 Meta = Meta
             };
         }
+        #endregion
     }
 }

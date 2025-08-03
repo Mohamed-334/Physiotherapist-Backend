@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BaseArchitecture.Service.Service;
+using BaseArchitecture.Service.ServiceInterfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BaseArchitecture.Service
 {
@@ -13,6 +10,7 @@ namespace BaseArchitecture.Service
         {
             // Register service dependencies here
             // Example: services.AddScoped<IMyService, MyService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             return services;
         }
     }
