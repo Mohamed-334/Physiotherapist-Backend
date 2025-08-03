@@ -48,8 +48,18 @@ namespace BaseArchitecture.Service.Shared.BaseService
         }
         public async Task<string> EditAsync(TEntity entity)
         {
-            await _baseRepository.UpdateAsync(entity);
-            return _stringLocalizer[AppLocalizationKeys.Success];
+            var trans = _baseRepository.BeginTransaction();
+            try
+            {
+                await _baseRepository.UpdateAsync(entity);
+                trans.Commit();
+                return _stringLocalizer[AppLocalizationKeys.Success];
+            }
+            catch (Exception ex)
+            {
+                trans.Rollback();
+                return _stringLocalizer[AppLocalizationKeys.UpdateFailed];
+            }
         }
         public async Task<string> HardDeleteAsync(TEntity entity)
         {
