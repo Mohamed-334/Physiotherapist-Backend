@@ -1,11 +1,12 @@
 
 using BaseArchitecture.Core;
 using BaseArchitecture.Core.Shared.CustomMiddleware;
+using BaseArchitecture.Domain.Entities;
 using BaseArchitecture.Infrastructure;
 using BaseArchitecture.Infrastructure.Context;
 using BaseArchitecture.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 
@@ -24,12 +25,33 @@ namespace BaseArchitecture.Presentation
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            #region Register Services
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddInfrastructureRegistrationServices(builder.Configuration);
+
+            #endregion
+            builder.Services.AddIdentity<User, IdentityRole<int>>(option =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("school"));
-            });
+                // Password settings.
+                option.Password.RequireDigit = true;
+                option.Password.RequireLowercase = true;
+                option.Password.RequireNonAlphanumeric = true;
+                option.Password.RequireUppercase = true;
+                option.Password.RequiredLength = 6;
+                option.Password.RequiredUniqueChars = 1;
 
+                // Lockout settings.
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                option.Lockout.MaxFailedAccessAttempts = 5;
+                option.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                option.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                option.User.RequireUniqueEmail = true;
+                option.SignIn.RequireConfirmedEmail = true;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             #region Dependency Injection
 

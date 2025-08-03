@@ -1,11 +1,6 @@
 ﻿using BaseArchitecture.Infrastructure.Shared.BaseRepository;
 using BaseArchitecture.Infrastructure.Shared.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseArchitecture.Infrastructure
 {
