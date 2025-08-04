@@ -8,5 +8,11 @@
         {
             public const string SignUp = Root + "SignUp";
         }
+        public static class UserRouting
+        {
+            public const string GetUserById = Root + "GetUserById/{id}";
+            public const string GetUsersList = Root + "GetUsersList";
+            public const string GetUsersPaginatedList = Root + "GetUsersPaginatedList";
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace BaseArchitecture.Service
             // Register service dependencies here
             // Example: services.AddScoped<IMyService, MyService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

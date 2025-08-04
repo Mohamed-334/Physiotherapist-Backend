@@ -17,9 +17,12 @@
     <Folder Include="Features\Authentication\Queries\Handlers\" />
     <Folder Include="Features\Authentication\Queries\DTO\" />
     <Folder Include="Features\Authentication\Queries\Request Models\" />
+    <Folder Include="Features\User\Commands\Handler\" />
+    <Folder Include="Features\User\Commands\Validator\" />
+    <Folder Include="Features\User\Commands\RequestModels\" />
+    <Folder Include="Features\User\Commands\DTO\" />
     <Folder Include="Mapping\AuthenticationMapping\QuaryMapping\" />
     <Folder Include="Mapping\UserMapping\CommandMapping\" />
-    <Folder Include="Mapping\UserMapping\QuaryMapping\" />
   </ItemGroup>
 
   <ItemGroup>

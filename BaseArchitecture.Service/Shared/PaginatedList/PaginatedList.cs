@@ -11,7 +11,6 @@
         {
             Data = data;
             CurrentPage = page;
-            Succeeded = succeeded;
             PageSize = pageSize;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
@@ -21,16 +20,12 @@
         {
             return new(true, data, null, count, page, pageSize);
         }
-
-        public bool Succeeded { get; set; }
-        public List<string> Messages { get; set; } = new();
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
         public int PageSize { get; set; }
         public bool HasPreviousPage => CurrentPage > 1;
         public bool HasNextPage => CurrentPage < TotalPages;
-        public object Meta { get; set; }
         public List<T> Data { get; set; }
     }
 }

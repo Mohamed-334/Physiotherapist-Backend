@@ -11,7 +11,7 @@ using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 {
-    public class AuthenticationHandler : ResponseHandler,
+    public class AuthenticationHandlerCommand : ResponseHandler,
                                         IRequestHandler<SignUpCommandRequestModel, Response<string>>
     {
         #region Fields
@@ -21,7 +21,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         #endregion
 
         #region Constructor
-        public AuthenticationHandler(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService) : base(stringLocalizer)
+        public AuthenticationHandlerCommand(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService) : base(stringLocalizer)
         {
             _stringLocalizer = stringLocalizer;
             _mapper = mapper;

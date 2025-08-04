@@ -1,0 +1,64 @@
+﻿using BaseArchitecture.Domain.Entities;
+using BaseArchitecture.Infrastructure.Shared.Localization;
+using BaseArchitecture.Service.ServiceInterfaces;
+using BaseArchitecture.Service.Shared.ExtensionMethods;
+using BaseArchitecture.Service.Shared.PaginatedList;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+
+namespace BaseArchitecture.Service.Service
+{
+    public class UserService : IUserService
+    {
+        #region Fields
+
+        private readonly UserManager<User> _userManager;
+        private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
+        #endregion
+
+        #region Constructor
+        public UserService(UserManager<User> userManager, IStringLocalizer<AppLocalization> stringLocalizer)
+        {
+            _userManager = userManager;
+            _stringLocalizer = stringLocalizer;
+        }
+        #endregion
+
+        #region Methods
+        public async Task<List<User>?> GetAll()
+        {
+            var Users = await _userManager.Users.ToListAsync();
+            return Users;
+        }
+        public async Task<User?> GetById(int id)
+        {
+            var User = await _userManager.Users
+                            .Where(u => u.Id == id)
+                            .FirstOrDefaultAsync();
+            return User;
+        }
+        public async Task<string> EditAsync(User entity)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<string> HardDeleteAsync(User entity)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<string> SoftDeleteAndActivationAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<PaginatedList<User>> GetPaginatedList(int pageNumber = 1, int pageSize = 10)
+        {
+            var Users = _userManager.Users
+                                    .AsQueryable();
+
+            var PaginatedList = await Users.ToPaginatedListAsync(pageNumber, pageSize);
+            return PaginatedList;
+        }
+
+        #endregion
+    }
+}
