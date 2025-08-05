@@ -9,6 +9,7 @@
         public const string Success = "Success";
         public const string NotEmpty = "NotEmpty";
         public const string Updated = "Updated";
+        public const string Activated = "Activated";
         public const string UnAuthorized = "UnAuthorized";
         public const string BadRequest = "BadRequest";
         public const string UnprocessableEntity = "UnprocessableEntity";

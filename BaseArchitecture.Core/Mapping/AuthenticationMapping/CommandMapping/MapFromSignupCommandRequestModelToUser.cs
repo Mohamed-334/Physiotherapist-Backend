@@ -7,7 +7,14 @@ namespace BaseArchitecture.Core.Mapping.AuthenticationMapping
     {
         public void MapFromSignupCommandRequestModelToUser()
         {
-            CreateMap<SignUpCommandRequestModel, User>();
+            CreateMap<SignUpCommandRequestModel, User>()
+                .AfterMap((RequestModel, User) =>
+                {
+                    if (User.CreationDate == null || User.CreationDate == default(DateTime))
+                        User.CreationDate = DateTime.Now;
+                    else
+                        User.ModificationDate = DateTime.Now;
+                });
         }
     }
 }

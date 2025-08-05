@@ -28,9 +28,11 @@ namespace BaseArchitecture.Service.Service
             var result = await _userManager.CreateAsync(user, password);
             return result;
         }
-
-        public async Task<bool> IsUserNameExist(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
-        public async Task<bool> IsEmailExist(string email) => (await _userManager.FindByEmailAsync(email)) != null;
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string CurrentPassword, string NewPassword)
+        {
+            var result = await _userManager.ChangePasswordAsync(user, CurrentPassword, NewPassword);
+            return result;
+        }
 
         #endregion
     }

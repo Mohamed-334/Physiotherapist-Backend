@@ -38,17 +38,15 @@ namespace BaseArchitecture.Service.Service
                             .FirstOrDefaultAsync();
             return User;
         }
-        public async Task<string> EditAsync(User entity)
+        public async Task<IdentityResult> EditAsync(User entity)
         {
-            throw new NotImplementedException();
+            var result = await _userManager.UpdateAsync(entity);
+            return result;
         }
-        public async Task<string> HardDeleteAsync(User entity)
+        public async Task<IdentityResult> HardDeleteAsync(User entity)
         {
-            throw new NotImplementedException();
-        }
-        public async Task<string> SoftDeleteAndActivationAsync(int id)
-        {
-            throw new NotImplementedException();
+            var result = await _userManager.DeleteAsync(entity);
+            return result;
         }
         public async Task<PaginatedList<User>> GetPaginatedList(int pageNumber = 1, int pageSize = 10)
         {
@@ -58,7 +56,9 @@ namespace BaseArchitecture.Service.Service
             var PaginatedList = await Users.ToPaginatedListAsync(pageNumber, pageSize);
             return PaginatedList;
         }
-
+        public async Task<User?> GetUserByEmail(string email) => await _userManager.FindByEmailAsync(email);
+        public async Task<bool> IsUserNameExist(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
+        public async Task<bool> IsEmailExist(string email) => (await _userManager.FindByEmailAsync(email)) != null;
         #endregion
     }
 }

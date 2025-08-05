@@ -1,4 +1,5 @@
-﻿using BaseArchitecture.Core.Features.ApplicationUser.Queries.RequestModels;
+﻿using BaseArchitecture.Core.Features.ApplicationUser.Commands.RequestModels;
+using BaseArchitecture.Core.Features.ApplicationUser.Queries.RequestModels;
 using BaseArchitecture.Domain.Meta;
 using BaseArchitecture.Presentation.Shared.BaseController;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,30 @@ namespace BaseArchitecture.Presentation.Controllers
         public async Task<IActionResult> GetUsersPaginatedList([FromBody] GetUsersPaginatedListQueryRequestModel request)
         {
             var response = await _mediator.Send(request);
+            return Result(response);
+        }
+        [HttpPut(Router.UserRouting.UpdateUser)]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommandRequestQuery request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
+        [HttpDelete(Router.UserRouting.HardDeleteUser)]
+        public async Task<IActionResult> HardDeleteUser([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new DeleteUserCommandRequestQuery
+            {
+                Id = id
+            });
+            return Result(response);
+        }
+        [HttpGet(Router.UserRouting.SoftDeleteAndActivateUser)]
+        public async Task<IActionResult> SoftDeleteAndActivateUser([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new SoftDeleteAndActivateUserCommandRequestQuery
+            {
+                Id = id
+            });
             return Result(response);
         }
     }

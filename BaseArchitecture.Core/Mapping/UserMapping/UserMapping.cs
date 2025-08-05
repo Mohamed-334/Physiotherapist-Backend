@@ -11,6 +11,7 @@ namespace BaseArchitecture.Core.Mapping.UserMapping
             // CreateMap<User, UserDto>()
             //     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
             MappingFromUserToUserFullDataDto();
+            MappingFromUpdateUserCommandRequestModelToUser();
         }
     }
 }

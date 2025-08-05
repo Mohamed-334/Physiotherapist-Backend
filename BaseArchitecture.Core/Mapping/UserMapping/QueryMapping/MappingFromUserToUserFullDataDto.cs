@@ -7,7 +7,14 @@ namespace BaseArchitecture.Core.Mapping.UserMapping
     {
         public void MappingFromUserToUserFullDataDto()
         {
-            CreateMap<User, UserFullDataDto>();
+            CreateMap<User, UserFullDataDto>()
+                .AfterMap((RequestModel, entity) =>
+                {
+                    if (RequestModel.CreationDate == null || RequestModel.CreationDate == default(DateTime))
+                        RequestModel.CreationDate = DateTime.Now;
+                    else
+                        RequestModel.ModificationDate = DateTime.Now;
+                });
         }
     }
 
