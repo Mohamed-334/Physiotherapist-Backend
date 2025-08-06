@@ -6,7 +6,7 @@ using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
 {
-    public class SignUpCommandValidator : AbstractValidator<SignUpCommandRequestModel>
+    public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommandRequestModel>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
@@ -14,7 +14,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
         #endregion
 
         #region Constructor
-        public SignUpCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer, IUserService userService)
+        public ChangePasswordCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer, IUserService userService)
         {
             _stringLocalizer = stringLocalizer;
             _userService = userService;
@@ -27,24 +27,17 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
 
         public void ApplySignUpCommandValidation()
         {
-            RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
-                .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.Password)
+            RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.ConfirmPassword)
-                .Equal(x => x.Password).WithMessage(_stringLocalizer[AppLocalizationKeys.PasswordNotEqualConfirmPass]);
+            RuleFor(x => x.ConfirmNewPassword)
+                .Equal(x => x.NewPassword).WithMessage(_stringLocalizer[AppLocalizationKeys.PasswordNotEqualConfirmPass]);
         }
         public void ApplyCustomSignUpCommandValidation()
         {
-            RuleFor(x => x.UserName)
-                .MustAsync(async (userName, cancellation) => !(await _userService.IsUserNameExist(userName)))
-                .WithMessage(_stringLocalizer[AppLocalizationKeys.UserNameIsExist]);
-
             RuleFor(x => x.Email)
                 .MustAsync(async (email, cancellation) => !(await _userService.IsEmailExist(email)))
                 .WithMessage(_stringLocalizer[AppLocalizationKeys.EmailIsExist]);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BaseArchitecture.Presentation.Controllers
 {
     [ApiController]
+    //[Authorize]
     public class UserController : BaseControllerApp
     {
         [HttpGet(Router.UserRouting.GetUserById)]

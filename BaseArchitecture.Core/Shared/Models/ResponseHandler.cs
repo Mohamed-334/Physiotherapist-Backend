@@ -45,7 +45,7 @@ namespace BaseArchitecture.Core.Shared.Models
             return new Response<T>()
             {
                 StatusCode = HttpStatusCode.Unauthorized,
-                Succeeded = true,
+                Succeeded = false,
                 Message = msg ?? _stringLocalizer[AppLocalizationKeys.UnAuthorized]
             };
         }

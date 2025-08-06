@@ -13,7 +13,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 {
     public class AuthenticationHandlerCommand : ResponseHandler,
                                         IRequestHandler<SignUpCommandRequestModel, Response<string>>,
-                                        IRequestHandler<ChangePasswordCommandRequestModel, Response<string>>
+                                        IRequestHandler<ChangePasswordCommandRequestModel, Response<string>>,
+                                        IRequestHandler<SignInCommandRequestModel, Response<string>>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
@@ -66,6 +67,18 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
                 throw new ValidationException(_stringLocalizer[AppLocalizationKeys.ChangePassFailed], errors);
             }
             return Success("");
+        }
+        public async Task<Response<string>> Handle(SignInCommandRequestModel request, CancellationToken cancellationToken)
+        {
+            var User = await _userService.GetUserByEmail(request.Email);
+            if (User == null)
+                return NotFound<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+
+            var PasswordCheck = await _authenticationService.CheckSignInPassword(User, request.Password, false);
+            if (!PasswordCheck.Succeeded)
+                return Unauthorized<string>(_stringLocalizer[AppLocalizationKeys.PasswordNotCorrect]);
+            var AccessToken = await _authenticationService.GenerateToken(User);
+            return Success(AccessToken.Item2);
         }
         #endregion
     }

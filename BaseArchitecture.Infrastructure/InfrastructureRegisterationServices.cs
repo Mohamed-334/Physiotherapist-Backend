@@ -18,9 +18,6 @@ namespace BaseArchitecture.Infrastructure
 
             #endregion
 
-            #region Identity Registration
-
-            #endregion
             return Services;
         }
     }

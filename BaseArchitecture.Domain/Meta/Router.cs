@@ -7,6 +7,7 @@
         public static class AuthenticationRouting
         {
             public const string SignUp = Root + "SignUp";
+            public const string SignIn = Root + "SignIn";
             public const string ChangePassword = Root + "ChangePassword";
         }
         public static class UserRouting

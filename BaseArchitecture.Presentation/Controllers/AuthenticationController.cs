@@ -14,6 +14,12 @@ namespace BaseArchitecture.Presentation.Controllers
             var response = await _mediator.Send(request);
             return Result(response);
         }
+        [HttpPost(Router.AuthenticationRouting.SignIn)]
+        public async Task<IActionResult> SignIn([FromBody] SignInCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
         [HttpPut(Router.AuthenticationRouting.ChangePassword)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommandRequestModel request)
         {
