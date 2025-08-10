@@ -10,8 +10,8 @@ namespace BaseArchitecture.Presentation.Controllers
     //[Authorize]
     public class UserController : BaseControllerApp
     {
-        [HttpGet(Router.UserRouting.GetUserById)]
-        public async Task<IActionResult> GetUserById([FromRoute] int id)
+        [HttpGet(Router.UserRouting.GetById)]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetUserByIdQueryRequestModel()
             {
@@ -19,26 +19,35 @@ namespace BaseArchitecture.Presentation.Controllers
             });
             return Result(response);
         }
-        [HttpGet(Router.UserRouting.GetUsersList)]
-        public async Task<IActionResult> GetUsersList()
+        [HttpGet(Router.UserRouting.GetList)]
+        public async Task<IActionResult> GetList()
         {
             var response = await _mediator.Send(new GetUsersListQueryRequestModel());
             return Result(response);
         }
-        [HttpPost(Router.UserRouting.GetUsersPaginatedList)]
-        public async Task<IActionResult> GetUsersPaginatedList([FromBody] GetUsersPaginatedListQueryRequestModel request)
+        [HttpGet(Router.UserRouting.GetUserRoles)]
+        public async Task<IActionResult> GetUserRoles([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new GetUserRolesQueryRequestModel()
+            {
+                UserId = id
+            });
+            return Result(response);
+        }
+        [HttpPost(Router.UserRouting.GetPaginatedList)]
+        public async Task<IActionResult> GetPaginatedList([FromBody] GetUsersPaginatedListQueryRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
-        [HttpPut(Router.UserRouting.UpdateUser)]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommandRequestQuery request)
+        [HttpPut(Router.UserRouting.Update)]
+        public async Task<IActionResult> Update([FromBody] UpdateUserCommandRequestQuery request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
-        [HttpDelete(Router.UserRouting.HardDeleteUser)]
-        public async Task<IActionResult> HardDeleteUser([FromRoute] int id)
+        [HttpDelete(Router.UserRouting.HardDelete)]
+        public async Task<IActionResult> HardDelete([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteUserCommandRequestQuery
             {
@@ -46,8 +55,8 @@ namespace BaseArchitecture.Presentation.Controllers
             });
             return Result(response);
         }
-        [HttpGet(Router.UserRouting.SoftDeleteAndActivateUser)]
-        public async Task<IActionResult> SoftDeleteAndActivateUser([FromRoute] int id)
+        [HttpGet(Router.UserRouting.SoftDeleteAndActivate)]
+        public async Task<IActionResult> SoftDeleteAndActivate([FromRoute] int id)
         {
             var response = await _mediator.Send(new SoftDeleteAndActivateUserCommandRequestQuery
             {

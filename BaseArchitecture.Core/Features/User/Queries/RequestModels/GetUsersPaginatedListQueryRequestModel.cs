@@ -1,4 +1,5 @@
-﻿using BaseArchitecture.Core.Features.ApplicationUser.Queries.DTO;
+﻿
+using BaseArchitecture.Core.Features.ApplicationUser.DTO;
 using BaseArchitecture.Core.Shared.Models;
 using BaseArchitecture.Service.Shared.PaginatedList;
 using MediatR;

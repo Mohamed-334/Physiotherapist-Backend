@@ -1,12 +1,11 @@
-﻿using BaseArchitecture.Core.Features.ApplicationUser.DTO;
+﻿using BaseArchitecture.Core.Features.Roles.Dto;
 using BaseArchitecture.Core.Shared.Models;
 using MediatR;
 
 namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.RequestModels
 {
-    public class GetUserByIdQueryRequestModel : IRequest<Response<UserFullDataDto>>
+    public class GetUserRolesQueryRequestModel : IRequest<Response<List<RoleFullDataDto>>>
     {
         public int UserId { get; set; }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.DTO
+﻿namespace BaseArchitecture.Core.Features.ApplicationUser.DTO
 {
     public class UserFullDataDto
     {

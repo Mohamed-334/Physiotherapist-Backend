@@ -58,13 +58,6 @@ namespace BaseArchitecture.Core.Shared.CustomMiddleware
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     case Exception e:
-                        if (e.GetType().ToString() == "ApiException")
-                        {
-                            responseModel.Message += e.Message;
-                            responseModel.Message += e.InnerException == null ? "" : "\n" + e.InnerException.Message;
-                            responseModel.StatusCode = HttpStatusCode.BadRequest;
-                            response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        }
                         responseModel.Message = e.Message;
                         responseModel.Message += e.InnerException == null ? "" : "\n" + e.InnerException.Message;
 

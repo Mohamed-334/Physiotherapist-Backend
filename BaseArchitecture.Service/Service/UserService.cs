@@ -6,6 +6,7 @@ using BaseArchitecture.Service.Shared.PaginatedList;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Data;
 
 namespace BaseArchitecture.Service.Service
 {
@@ -56,9 +57,17 @@ namespace BaseArchitecture.Service.Service
             var PaginatedList = await Users.ToPaginatedListAsync(pageNumber, pageSize);
             return PaginatedList;
         }
+        public async Task<List<string>> GetUserRoles(User user)
+        {
+            return (await _userManager.GetRolesAsync(user)).ToList();
+        }
+        public async Task<IdentityResult> AddUserToRole(User user, string role) => await _userManager.AddToRoleAsync(user, role);
+        public async Task<bool> IsUserInRole(User user, string role) => await _userManager.IsInRoleAsync(user, role);
         public async Task<User?> GetUserByEmail(string email) => await _userManager.FindByEmailAsync(email);
         public async Task<bool> IsUserNameExist(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
         public async Task<bool> IsEmailExist(string email) => (await _userManager.FindByEmailAsync(email)) != null;
         #endregion
     }
+
+
 }

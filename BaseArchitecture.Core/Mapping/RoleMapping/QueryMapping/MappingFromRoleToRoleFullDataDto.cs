@@ -1,13 +1,13 @@
-﻿using BaseArchitecture.Core.Features.ApplicationUser.DTO;
+﻿using BaseArchitecture.Core.Features.Roles.Dto;
 using BaseArchitecture.Domain.Entities;
 
-namespace BaseArchitecture.Core.Mapping.UserMapping
+namespace BaseArchitecture.Core.Mapping.RoleMapping
 {
-    public partial class UserMapping
+    public partial class RoleMapping
     {
-        public void MappingFromUserToUserFullDataDto()
+        public void MappingFromRoleToRoleFullDataDto()
         {
-            CreateMap<User, UserFullDataDto>()
+            CreateMap<Role, RoleFullDataDto>()
                 .AfterMap((RequestModel, entity) =>
                 {
                     if (RequestModel.CreationDate == null || RequestModel.CreationDate == default(DateTime))

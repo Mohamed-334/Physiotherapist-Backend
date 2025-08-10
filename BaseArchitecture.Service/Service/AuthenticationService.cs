@@ -41,11 +41,14 @@ namespace BaseArchitecture.Service.Service
         {
             var claims = await GetClaims(user);
             var jwtToken = new JwtSecurityToken(
-                _jwtSettings.Issuer,
-                _jwtSettings.Audience,
-                claims,
-                expires: DateTime.Now.AddDays(_jwtSettings.AccessTokenExpireDate),
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret)), SecurityAlgorithms.HmacSha256Signature));
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(_jwtSettings.AccessTokenExpireDate),
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
+                    SecurityAlgorithms.HmacSha256Signature));
+
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return (jwtToken, accessToken);
         }
@@ -54,20 +57,22 @@ namespace BaseArchitecture.Service.Service
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.NameIdentifier,user.UserName),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(nameof(UserClaimModel.PhoneNumber), user.PhoneNumber),
-                new Claim(nameof(UserClaimModel.Id), user.Id.ToString())
+                new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(ClaimTypes.GivenName, user.Name ?? ""),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? ""),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
+
             foreach (var role in roles)
-            {
                 claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+
             var userClaims = await _userManager.GetClaimsAsync(user);
             claims.AddRange(userClaims);
+
             return claims;
         }
+
         public async Task<IdentityResult> ChangePasswordAsync(User user, string CurrentPassword, string NewPassword)
                                                              => await _userManager.ChangePasswordAsync(user, CurrentPassword, NewPassword);
 

@@ -228,6 +228,9 @@
   <data name="Required" xml:space="preserve">
     <value>This Field is Required</value>
   </data>
+  <data name="Role" xml:space="preserve">
+    <value>The Role</value>
+  </data>
   <data name="RoleIsUsed" xml:space="preserve">
     <value>Role is already in use</value>
   </data>

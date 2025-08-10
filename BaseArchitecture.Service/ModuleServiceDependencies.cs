@@ -12,6 +12,7 @@ namespace BaseArchitecture.Service
             // Example: services.AddScoped<IMyService, MyService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             return services;
         }
     }

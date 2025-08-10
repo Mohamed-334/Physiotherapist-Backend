@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using BaseArchitecture.Core.Features.ApplicationUser.Queries.DTO;
+using BaseArchitecture.Core.Features.ApplicationUser.DTO;
 using BaseArchitecture.Core.Features.ApplicationUser.Queries.RequestModels;
+using BaseArchitecture.Core.Features.Roles.Dto;
 using BaseArchitecture.Core.Shared.Models;
 using BaseArchitecture.Infrastructure.Shared.Localization;
 using BaseArchitecture.Service.ServiceInterfaces;
@@ -13,7 +14,8 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
     public class UserHandlerQuery : ResponseHandler,
                                     IRequestHandler<GetUsersListQueryRequestModel, Response<List<UserFullDataDto>>>,
                                     IRequestHandler<GetUserByIdQueryRequestModel, Response<UserFullDataDto>>,
-                                    IRequestHandler<GetUsersPaginatedListQueryRequestModel, Response<PaginatedList<UserFullDataDto>>>
+                                    IRequestHandler<GetUsersPaginatedListQueryRequestModel, Response<PaginatedList<UserFullDataDto>>>,
+                                    IRequestHandler<GetUserRolesQueryRequestModel, Response<List<RoleFullDataDto>>>
     {
 
         #region Fields
@@ -58,6 +60,18 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
             var UserFullDataDtoList = _mapper.Map<List<UserFullDataDto>>(PaginatedList.Data);
             var paginatedListDto = PaginatedList<UserFullDataDto>.Success(UserFullDataDtoList, PaginatedList.TotalCount, PaginatedList.CurrentPage, PaginatedList.PageSize);
             return Success(paginatedListDto, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<List<RoleFullDataDto>>> Handle(GetUserRolesQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var User = await _userService.GetById(request.UserId);
+            if (User == null)
+                return NotFound<List<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
+            var roles = await _userService.GetUserRoles(User);
+            if (roles == null || roles.Count <= 0)
+                return NotFound<List<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var RoleFullDataDtoList = _mapper.Map<List<RoleFullDataDto>>(roles);
+            return Success(RoleFullDataDtoList, _stringLocalizer[AppLocalizationKeys.Success], new { TotalCount = RoleFullDataDtoList.Count });
         }
         #endregion
 

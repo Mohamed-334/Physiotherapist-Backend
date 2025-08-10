@@ -7,18 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Authentication\Commands\DTO\**" />
+    <Compile Remove="Features\Authentication\Queries\DTO\**" />
+    <Compile Remove="Features\User\Commands\DTO\**" />
+    <EmbeddedResource Remove="Features\Authentication\Commands\DTO\**" />
+    <EmbeddedResource Remove="Features\Authentication\Queries\DTO\**" />
+    <EmbeddedResource Remove="Features\User\Commands\DTO\**" />
+    <None Remove="Features\Authentication\Commands\DTO\**" />
+    <None Remove="Features\Authentication\Queries\DTO\**" />
+    <None Remove="Features\User\Commands\DTO\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BaseArchitecture.Domain\BaseArchitecture.Domain.csproj" />
     <ProjectReference Include="..\BaseArchitecture.Infrastructure\BaseArchitecture.Infrastructure.csproj" />
     <ProjectReference Include="..\BaseArchitecture.Service\BaseArchitecture.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Authentication\Commands\DTO\" />
+    <Folder Include="Features\Authentication\Dto\" />
     <Folder Include="Features\Authentication\Queries\Handlers\" />
-    <Folder Include="Features\Authentication\Queries\DTO\" />
     <Folder Include="Features\Authentication\Queries\Request Models\" />
     <Folder Include="Features\User\Commands\Validator\" />
-    <Folder Include="Features\User\Commands\DTO\" />
     <Folder Include="Mapping\AuthenticationMapping\QuaryMapping\" />
   </ItemGroup>
 

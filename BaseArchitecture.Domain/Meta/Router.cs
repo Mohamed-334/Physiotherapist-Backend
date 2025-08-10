@@ -6,18 +6,29 @@
         public const string Root = "/api/";
         public static class AuthenticationRouting
         {
-            public const string SignUp = Root + "SignUp";
-            public const string SignIn = Root + "SignIn";
-            public const string ChangePassword = Root + "ChangePassword";
+            public const string SignUp = Root + "Authentication/SignUp";
+            public const string SignIn = Root + "Authentication/SignIn";
+            public const string ChangePassword = Root + "Authentication/ChangePassword";
         }
         public static class UserRouting
         {
-            public const string GetUserById = Root + "GetUserById/{id}";
-            public const string GetUsersList = Root + "GetUsersList";
-            public const string GetUsersPaginatedList = Root + "GetUsersPaginatedList";
-            public const string UpdateUser = Root + "UpdateUser";
-            public const string HardDeleteUser = Root + "HardDeleteUser/{id}";
-            public const string SoftDeleteAndActivateUser = Root + "SoftDeleteAndActivateUser/{id}";
+            public const string GetById = Root + "User/GetById/{id}";
+            public const string GetList = Root + "User/GetList";
+            public const string GetUserRoles = Root + "User/GetUserRoles/{id}";
+            public const string GetPaginatedList = Root + "User/GetPaginatedList";
+            public const string Update = Root + "User/Update";
+            public const string HardDelete = Root + "User/HardDelete/{id}";
+            public const string SoftDeleteAndActivate = Root + "User/SoftDeleteAndActivate/{id}";
+        }
+        public static class RoleRouting
+        {
+            public const string GetById = Root + "Role/GetById/{id}";
+            public const string GetList = Root + "Role/GetList";
+            public const string GetPaginatedList = Root + "Role/GetPaginatedList";
+            public const string Create = Root + "Role/Create";
+            public const string Update = Root + "Role/Update";
+            public const string Delete = Root + "Role/Delete/{id}";
+            public const string SoftDeleteAndActivate = Root + "Role/SoftDeleteAndActivate/{id}";
         }
     }
 }

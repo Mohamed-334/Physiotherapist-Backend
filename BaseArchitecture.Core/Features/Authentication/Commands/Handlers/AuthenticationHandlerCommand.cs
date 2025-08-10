@@ -48,6 +48,12 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
                 }).ToList();
                 throw new ValidationException(errors);
             }
+            if (await _userService.IsUserInRole(User, request.Role))
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.RoleIsUsed]);
+            var RoleResult = await _userService.AddUserToRole(User, request.Role);
+
+            if (!RoleResult.Succeeded)
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToAddNewRoles]);
             return Success("");
         }
 
@@ -77,6 +83,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             var PasswordCheck = await _authenticationService.CheckSignInPassword(User, request.Password, false);
             if (!PasswordCheck.Succeeded)
                 return Unauthorized<string>(_stringLocalizer[AppLocalizationKeys.PasswordNotCorrect]);
+
             var AccessToken = await _authenticationService.GenerateToken(User);
             return Success(AccessToken.Item2);
         }

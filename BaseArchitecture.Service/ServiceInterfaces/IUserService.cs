@@ -8,6 +8,9 @@ namespace BaseArchitecture.Service.ServiceInterfaces
     {
         Task<List<User>?> GetAll();
         Task<User?> GetById(int id);
+        Task<List<string>> GetUserRoles(User user);
+        Task<IdentityResult> AddUserToRole(User user, string role);
+        Task<bool> IsUserInRole(User user, string role);
         Task<IdentityResult> EditAsync(User entity);
         Task<IdentityResult> HardDeleteAsync(User entity);
         Task<PaginatedList<User>> GetPaginatedList(int pageNumber = 1, int pageSize = 10);
