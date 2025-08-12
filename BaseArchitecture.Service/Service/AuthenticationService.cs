@@ -35,11 +35,11 @@ namespace BaseArchitecture.Service.Service
 
         public async Task<IdentityResult> SignUpAsync(User user, string password) => await _userManager.CreateAsync(user, password);
         public async Task SignInAsync(User user, bool IsPersistent) => await _signManager.SignInAsync(user, IsPersistent);
-        public async Task<SignInResult> CheckSignInPassword(User user, string? Password, bool LockedOnFailure) => await _signManager.CheckPasswordSignInAsync(user, Password, LockedOnFailure);
+        public async Task<SignInResult> CheckSignInPasswordAsync(User user, string? Password, bool LockedOnFailure) => await _signManager.CheckPasswordSignInAsync(user, Password, LockedOnFailure);
 
-        public async Task<(JwtSecurityToken, string)> GenerateToken(User user)
+        public async Task<(JwtSecurityToken, string)> GenerateTokenAsync(User user)
         {
-            var claims = await GetClaims(user);
+            var claims = await GetClaimsAsync(user);
             var jwtToken = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
@@ -52,7 +52,7 @@ namespace BaseArchitecture.Service.Service
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return (jwtToken, accessToken);
         }
-        public async Task<List<Claim>> GetClaims(User user)
+        public async Task<List<Claim>> GetClaimsAsync(User user)
         {
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>()
@@ -75,6 +75,15 @@ namespace BaseArchitecture.Service.Service
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string CurrentPassword, string NewPassword)
                                                              => await _userManager.ChangePasswordAsync(user, CurrentPassword, NewPassword);
+        public async Task<string> GenerateOtpAsync(User user) => await _userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultEmailProvider);
+        public async Task<bool> VerifyOtpAsync(User user, string otp) => await _userManager.VerifyTwoFactorTokenAsync(user, TokenOptions.DefaultEmailProvider, otp);
+
+        public async Task<IdentityResult> ResetPasswordAsync(User user, string password)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            return result;
+        }
 
 
         #endregion

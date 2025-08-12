@@ -45,11 +45,11 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
         public void ApplyCustomSignUpCommandValidation()
         {
             RuleFor(x => x.UserName)
-                .MustAsync(async (userName, cancellation) => !(await _userService.IsUserNameExist(userName)))
+                .MustAsync(async (userName, cancellation) => !(await _userService.IsUserNameExistAsync(userName)))
                 .WithMessage(_stringLocalizer[AppLocalizationKeys.UserNameIsExist]);
 
             RuleFor(x => x.Email)
-                .MustAsync(async (email, cancellation) => !(await _userService.IsEmailExist(email)))
+                .MustAsync(async (email, cancellation) => !(await _userService.IsEmailExistAsync(email)))
                 .WithMessage(_stringLocalizer[AppLocalizationKeys.EmailIsExist]);
         }
         #endregion

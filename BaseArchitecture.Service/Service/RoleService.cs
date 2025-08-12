@@ -29,26 +29,26 @@ namespace BaseArchitecture.Service.Service
         #endregion
 
         #region Methods
-        public async Task<List<Role>?> GetAll()
+        public async Task<List<Role>?> GetAllAsync()
         {
             var Roles = await _roleManager.Roles.ToListAsync();
             return Roles;
         }
-        public async Task<Role?> GetById(int id)
+        public async Task<Role?> GetByIdAsync(int id)
         {
             var Role = await _roleManager.Roles
                             .Where(u => u.Id == id)
                             .FirstOrDefaultAsync();
             return Role;
         }
-        public async Task<IdentityResult> AddRole(Role role)
+        public async Task<IdentityResult> AddRoleAsync(Role role)
         {
             var result = await _roleManager.CreateAsync(role);
             return result;
         }
-        public async Task<bool> RoleIsUsed(int roleId)
+        public async Task<bool> RoleIsUsedAsync(int roleId)
         {
-            var role = await GetById(roleId);
+            var role = await GetByIdAsync(roleId);
             var Users = await _userManager.GetUsersInRoleAsync(role.Name);
             return Users != null && Users.Count > 0;
         }
@@ -62,7 +62,7 @@ namespace BaseArchitecture.Service.Service
             var result = await _roleManager.DeleteAsync(entity);
             return result;
         }
-        public async Task<PaginatedList<Role>> GetPaginatedList(int pageNumber = 1, int pageSize = 10)
+        public async Task<PaginatedList<Role>> GetPaginatedListAsync(int pageNumber = 1, int pageSize = 10)
         {
             var Users = _roleManager.Roles
                                     .AsQueryable();
@@ -70,7 +70,7 @@ namespace BaseArchitecture.Service.Service
             var PaginatedList = await Users.ToPaginatedListAsync(pageNumber, pageSize);
             return PaginatedList;
         }
-        public async Task<bool> IsRoleNameExist(string RoleName) => (await _roleManager.FindByNameAsync(RoleName)) != null;
+        public async Task<bool> IsRoleNameExistAsync(string RoleName) => (await _roleManager.FindByNameAsync(RoleName)) != null;
         #endregion
     }
 

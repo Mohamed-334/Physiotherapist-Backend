@@ -38,7 +38,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         public async Task<Response<string>> Handle(AddRoleCommandRequestModel request, CancellationToken cancellationToken)
         {
             var Role = _mapper.Map<Role>(request);
-            var result = await _roleService.AddRole(Role);
+            var result = await _roleService.AddRoleAsync(Role);
             if (!result.Succeeded)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.AddFailed]);
             return Success("");
@@ -46,7 +46,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 
         public async Task<Response<string>> Handle(UpdateRoleCommandRequestModel request, CancellationToken cancellationToken)
         {
-            var role = await _roleService.GetById(request.Id);
+            var role = await _roleService.GetByIdAsync(request.Id);
             if (role == null)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
 
@@ -59,7 +59,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 
         public async Task<Response<string>> Handle(DeleteRoleCommandRequestModel request, CancellationToken cancellationToken)
         {
-            var role = await _roleService.GetById(request.Id);
+            var role = await _roleService.GetByIdAsync(request.Id);
             if (role == null)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             var result = await _roleService.HardDeleteAsync(role);
@@ -69,7 +69,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         }
         public async Task<Response<string>> Handle(SoftDeleteAndActivateUserCommandRequestQuery request, CancellationToken cancellationToken)
         {
-            var user = await _roleService.GetById(request.Id);
+            var user = await _roleService.GetByIdAsync(request.Id);
             if (user == null)
                 return NotFound<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             user.IsDeleted = !(user.IsDeleted);

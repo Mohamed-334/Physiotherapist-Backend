@@ -6,16 +6,16 @@ namespace BaseArchitecture.Service.ServiceInterfaces
 {
     public interface IUserService
     {
-        Task<List<User>?> GetAll();
-        Task<User?> GetById(int id);
-        Task<List<string>> GetUserRoles(User user);
-        Task<IdentityResult> AddUserToRole(User user, string role);
-        Task<bool> IsUserInRole(User user, string role);
+        Task<List<User>?> GetAllAsync();
+        Task<User?> GetByIdAsync(int id);
+        Task<List<string>> GetUserRolesAsync(User user);
+        Task<IdentityResult> AddUserToRoleAsync(User user, string role);
+        Task<bool> IsUserInRoleAsync(User user, string role);
         Task<IdentityResult> EditAsync(User entity);
         Task<IdentityResult> HardDeleteAsync(User entity);
-        Task<PaginatedList<User>> GetPaginatedList(int pageNumber = 1, int pageSize = 10);
-        Task<User?> GetUserByEmail(string email);
-        Task<bool> IsUserNameExist(string userName);
-        Task<bool> IsEmailExist(string email);
+        Task<PaginatedList<User>> GetPaginatedListAsync(int pageNumber = 1, int pageSize = 10);
+        Task<User?> GetUserByEmailAsync(string email);
+        Task<bool> IsUserNameExistAsync(string userName);
+        Task<bool> IsEmailExistAsync(string email);
     }
 }

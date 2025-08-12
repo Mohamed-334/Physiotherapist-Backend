@@ -5,6 +5,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.RequestModels
 {
     public class SignUpCommandRequestModel : IRequest<Response<string>>
     {
+        public string? Name { get; set; }
+        public string? NameLocalization { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }
         public string? NationalNumber { get; set; }

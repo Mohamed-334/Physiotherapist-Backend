@@ -20,8 +20,32 @@ namespace BaseArchitecture.Presentation.Controllers
             var response = await _mediator.Send(request);
             return Result(response);
         }
+        [HttpPost(Router.AuthenticationRouting.VerifyRegistrationOtp)]
+        public async Task<IActionResult> VerifyRegistrationOtp([FromBody] OtpVerificationCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
+        [HttpPost(Router.AuthenticationRouting.VerifyResetPasswordOtp)]
+        public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] ResetPasswordOtpVerificationCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
         [HttpPut(Router.AuthenticationRouting.ChangePassword)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
+        [HttpPost(Router.AuthenticationRouting.ResetPasswordRequest)]
+        public async Task<IActionResult> ResetPasswordRequest([FromBody] ResetPasswordRequestCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
+        [HttpPost(Router.AuthenticationRouting.ResetPassword)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);

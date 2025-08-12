@@ -37,7 +37,7 @@ namespace BaseArchitecture.Core.Features.Roles.Commands.Validators
         public void ApplyCustomSignUpCommandValidation()
         {
             RuleFor(x => x.Name)
-                .MustAsync(async (RoleName, cancellation) => !(await _roleService.IsRoleNameExist(RoleName)))
+                .MustAsync(async (RoleName, cancellation) => !(await _roleService.IsRoleNameExistAsync(RoleName)))
                 .WithMessage(_stringLocalizer[AppLocalizationKeys.UserNameIsExist]);
         }
         #endregion

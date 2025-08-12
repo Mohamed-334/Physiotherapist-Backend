@@ -6,29 +6,41 @@
         public const string Root = "/api/";
         public static class AuthenticationRouting
         {
-            public const string SignUp = Root + "Authentication/SignUp";
-            public const string SignIn = Root + "Authentication/SignIn";
-            public const string ChangePassword = Root + "Authentication/ChangePassword";
+            public const string Prefix = Root + "Authentication/";
+            public const string SignUp = Prefix + "SignUp";
+            public const string SignIn = Prefix + "SignIn";
+            public const string VerifyRegistrationOtp = Prefix + "VerifyRegistrationOtp";
+            public const string VerifyResetPasswordOtp = Prefix + "VerifyResetPasswordOtp";
+            public const string ChangePassword = Prefix + "ChangePassword";
+            public const string ResetPasswordRequest = Prefix + "ResetPasswordRequest";
+            public const string ResetPassword = Prefix + "ResetPassword";
         }
         public static class UserRouting
         {
-            public const string GetById = Root + "User/GetById/{id}";
-            public const string GetList = Root + "User/GetList";
-            public const string GetUserRoles = Root + "User/GetUserRoles/{id}";
-            public const string GetPaginatedList = Root + "User/GetPaginatedList";
-            public const string Update = Root + "User/Update";
-            public const string HardDelete = Root + "User/HardDelete/{id}";
-            public const string SoftDeleteAndActivate = Root + "User/SoftDeleteAndActivate/{id}";
+            public const string Prefix = Root + "User/";
+            public const string GetById = Prefix + "GetById/{id}";
+            public const string GetList = Prefix + "GetList";
+            public const string GetUserRoles = Prefix + "GetUserRoles/{id}";
+            public const string GetPaginatedList = Prefix + "GetPaginatedList";
+            public const string Update = Prefix + "Update";
+            public const string HardDelete = Prefix + "HardDelete/{id}";
+            public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
         }
         public static class RoleRouting
         {
-            public const string GetById = Root + "Role/GetById/{id}";
-            public const string GetList = Root + "Role/GetList";
-            public const string GetPaginatedList = Root + "Role/GetPaginatedList";
-            public const string Create = Root + "Role/Create";
-            public const string Update = Root + "Role/Update";
-            public const string Delete = Root + "Role/Delete/{id}";
-            public const string SoftDeleteAndActivate = Root + "Role/SoftDeleteAndActivate/{id}";
+            public const string Prefix = Root + "Role/";
+            public const string GetById = Prefix + "GetById/{id}";
+            public const string GetList = Prefix + "GetList";
+            public const string GetPaginatedList = Prefix + "GetPaginatedList";
+            public const string Create = Prefix + "Create";
+            public const string Update = Prefix + "Update";
+            public const string Delete = Prefix + "Delete/{id}";
+            public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
+        }
+        public static class EmailRouting
+        {
+            public const string Prefix = Root + "Email/";
+            public const string SendEmail = Prefix + "SendEmail";
         }
     }
 }

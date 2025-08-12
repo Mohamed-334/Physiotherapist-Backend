@@ -27,12 +27,12 @@ namespace BaseArchitecture.Service.Service
         #endregion
 
         #region Methods
-        public async Task<List<User>?> GetAll()
+        public async Task<List<User>?> GetAllAsync()
         {
             var Users = await _userManager.Users.ToListAsync();
             return Users;
         }
-        public async Task<User?> GetById(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             var User = await _userManager.Users
                             .Where(u => u.Id == id)
@@ -49,7 +49,7 @@ namespace BaseArchitecture.Service.Service
             var result = await _userManager.DeleteAsync(entity);
             return result;
         }
-        public async Task<PaginatedList<User>> GetPaginatedList(int pageNumber = 1, int pageSize = 10)
+        public async Task<PaginatedList<User>> GetPaginatedListAsync(int pageNumber = 1, int pageSize = 10)
         {
             var Users = _userManager.Users
                                     .AsQueryable();
@@ -57,15 +57,15 @@ namespace BaseArchitecture.Service.Service
             var PaginatedList = await Users.ToPaginatedListAsync(pageNumber, pageSize);
             return PaginatedList;
         }
-        public async Task<List<string>> GetUserRoles(User user)
+        public async Task<List<string>> GetUserRolesAsync(User user)
         {
             return (await _userManager.GetRolesAsync(user)).ToList();
         }
-        public async Task<IdentityResult> AddUserToRole(User user, string role) => await _userManager.AddToRoleAsync(user, role);
-        public async Task<bool> IsUserInRole(User user, string role) => await _userManager.IsInRoleAsync(user, role);
-        public async Task<User?> GetUserByEmail(string email) => await _userManager.FindByEmailAsync(email);
-        public async Task<bool> IsUserNameExist(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
-        public async Task<bool> IsEmailExist(string email) => (await _userManager.FindByEmailAsync(email)) != null;
+        public async Task<IdentityResult> AddUserToRoleAsync(User user, string role) => await _userManager.AddToRoleAsync(user, role);
+        public async Task<bool> IsUserInRoleAsync(User user, string role) => await _userManager.IsInRoleAsync(user, role);
+        public async Task<User?> GetUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
+        public async Task<bool> IsUserNameExistAsync(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
+        public async Task<bool> IsEmailExistAsync(string email) => (await _userManager.FindByEmailAsync(email)) != null;
         #endregion
     }
 

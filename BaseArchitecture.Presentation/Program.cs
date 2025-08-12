@@ -1,6 +1,7 @@
 ﻿using BaseArchitecture.Core;
 using BaseArchitecture.Core.Shared.CustomMiddleware;
 using BaseArchitecture.Domain.Entities;
+using BaseArchitecture.Domain.Shared.EmailModels;
 using BaseArchitecture.Domain.Shared.JwtModels;
 using BaseArchitecture.Infrastructure;
 using BaseArchitecture.Infrastructure.Context;
@@ -75,6 +76,33 @@ namespace BaseArchitecture.Presentation
 
             #endregion
 
+            #region Identity Config
+            builder.Services.AddIdentity<User, Role>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<EmailTokenProvider<User>>(TokenOptions.DefaultEmailProvider);
+            #endregion
+
+            #region Application Cookies Config
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.LoginPath = string.Empty;
+                options.AccessDeniedPath = string.Empty;
+                options.SlidingExpiration = true;
+            });
+            #endregion
+
             #region Jwt Authentication Config
             var jwtSettings = new JwtSettings();
             builder.Configuration.GetSection("JwtSettings").Bind(jwtSettings);
@@ -101,72 +129,8 @@ namespace BaseArchitecture.Presentation
                     ValidateLifetime = jwtSettings.ValidateLifeTime,
                     ClockSkew = TimeSpan.Zero
                 };
-
-                // إضافة events للـ JWT Bearer لضمان إرجاع proper status codes
-                options.Events = new JwtBearerEvents
-                {
-                    OnChallenge = context =>
-                    {
-                        // منع الـ default challenge behavior
-                        context.HandleResponse();
-
-                        // إرجاع 401 بدلاً من redirect
-                        if (!context.Response.HasStarted)
-                        {
-                            context.Response.StatusCode = 401;
-                            context.Response.ContentType = "application/json";
-                            return context.Response.WriteAsync("{\"error\": \"Unauthorized\", \"message\": \"Valid JWT token is required\"}");
-                        }
-                        return Task.CompletedTask;
-                    },
-                    OnForbidden = context =>
-                    {
-                        // إرجاع 403 بدلاً من redirect
-                        if (!context.Response.HasStarted)
-                        {
-                            context.Response.StatusCode = 403;
-                            context.Response.ContentType = "application/json";
-                            return context.Response.WriteAsync("{\"error\": \"Forbidden\", \"message\": \"You don't have permission to access this resource\"}");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
             });
 
-            #endregion
-
-            #region Identity Config
-            builder.Services.AddIdentity<User, Role>(options =>
-            {
-                // إعدادات الـ Identity العامة
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-            })
-            .AddEntityFrameworkStores<AppDbContext>();
-
-            // تكوين الـ Identity للـ API - منع الـ redirects
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    // بدلاً من redirect، ارجع 401
-                    context.Response.StatusCode = 401;
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("{\"error\": \"Unauthorized\", \"message\": \"Authentication required\"}");
-                };
-
-                options.Events.OnRedirectToAccessDenied = context =>
-                {
-                    // بدلاً من redirect، ارجع 403
-                    context.Response.StatusCode = 403;
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("{\"error\": \"Forbidden\", \"message\": \"Access denied\"}");
-                };
-            });
             #endregion
 
             #region Dependency Injection
@@ -208,6 +172,13 @@ namespace BaseArchitecture.Presentation
             });
             #endregion
 
+            #region Email Config
+            var emailSettings = new EmailSettings();
+            builder.Configuration.GetSection(nameof(emailSettings)).Bind(emailSettings);
+            builder.Services.AddSingleton(emailSettings);
+
+            #endregion
+
             var app = builder.Build();
 
             #region Seeders
@@ -238,19 +209,11 @@ namespace BaseArchitecture.Presentation
             app.UseRequestLocalization(localizationOptions!.Value);
             #endregion
 
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine($"➡️ Request Path: {context.Request.Path}");
-                await next.Invoke();
-                Console.WriteLine($"⬅️ Response Status: {context.Response.StatusCode}");
-            });
-
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseCors(builder.Configuration.GetSection("CorsConfig")["CorsConfigName"]!);
 
-            // ترتيب الـ middleware مهم جداً
             app.UseAuthentication();
             app.UseAuthorization();
 

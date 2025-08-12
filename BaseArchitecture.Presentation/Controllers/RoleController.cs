@@ -2,12 +2,13 @@
 using BaseArchitecture.Core.Features.Roles.Queries.RequestModels;
 using BaseArchitecture.Domain.Meta;
 using BaseArchitecture.Presentation.Shared.BaseController;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseArchitecture.Presentation.Controllers
 {
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : BaseControllerApp
     {
         [HttpGet(Router.RoleRouting.GetById)]

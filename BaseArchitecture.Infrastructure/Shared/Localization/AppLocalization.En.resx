@@ -168,6 +168,9 @@
   <data name="FailedToAddUser" xml:space="preserve">
     <value>Failed To Add User.</value>
   </data>
+  <data name="FailedToGenerateOtp" xml:space="preserve">
+    <value>Faild To Send the Otp</value>
+  </data>
   <data name="FailedToRemoveOldClaims" xml:space="preserve">
     <value>Failed To Remove Old Claims</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="FailedToUploadImage" xml:space="preserve">
     <value>Failed To Upload Image</value>
+  </data>
+  <data name="FailedToVerifyOtp" xml:space="preserve">
+    <value>Faild to verify the otp</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>Invalid Code</value>
@@ -207,8 +213,17 @@
   <data name="NotFound" xml:space="preserve">
     <value>Data Not Found</value>
   </data>
+  <data name="OtpGenerated" xml:space="preserve">
+    <value>Otp Generated Successfully</value>
+  </data>
+  <data name="OtpVerified" xml:space="preserve">
+    <value>Otp Verified</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Password Changed Successfully</value>
   </data>
   <data name="PasswordNotCorrect" xml:space="preserve">
     <value>Password is Not Correct</value>

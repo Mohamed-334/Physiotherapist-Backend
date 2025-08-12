@@ -54,5 +54,10 @@
         public const string InvalidCode = "InvalidCode";
         public const string NoImage = "NoImage";
         public const string FailedToUploadImage = "FailedToUploadImage";
+        public const string FailedToGenerateOtp = "FailedToGenerateOtp";
+        public const string OtpGenerated = "OtpGenerated";
+        public const string OtpVerified = "OtpVerified";
+        public const string FailedToVerifyOtp = "FailedToVerifyOtp";
+        public const string PasswordChanged = "PasswordChanged";
     }
 }

@@ -1,25 +1,21 @@
 ﻿using BaseArchitecture.Core.Features.Authentication.Commands.RequestModels;
 using BaseArchitecture.Infrastructure.Shared.Localization;
-using BaseArchitecture.Service.ServiceInterfaces;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
 {
-    public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommandRequestModel>
+    public class OtpVerificationCommandValidator : AbstractValidator<OtpVerificationCommandRequestModel>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
-        private readonly IUserService _userService;
         #endregion
 
         #region Constructor
-        public ChangePasswordCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer, IUserService userService)
+        public OtpVerificationCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer)
         {
             _stringLocalizer = stringLocalizer;
-            _userService = userService;
             ApplySignUpCommandValidation();
-            ApplyCustomSignUpCommandValidation();
         }
         #endregion
 
@@ -30,17 +26,9 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.NewPassword)
+            RuleFor(x => x.OtpCode)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.ConfirmNewPassword)
-                .Equal(x => x.NewPassword).WithMessage(_stringLocalizer[AppLocalizationKeys.PasswordNotEqualConfirmPass]);
-        }
-        public void ApplyCustomSignUpCommandValidation()
-        {
-            RuleFor(x => x.Email)
-                .MustAsync(async (email, cancellation) => !(await _userService.IsEmailExistAsync(email)))
-                .WithMessage(_stringLocalizer[AppLocalizationKeys.EmailIsExist]);
         }
         #endregion
     }

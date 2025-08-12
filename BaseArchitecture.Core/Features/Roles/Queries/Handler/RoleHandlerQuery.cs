@@ -34,7 +34,7 @@ namespace BaseArchitecture.Core.Features.Roles.Queries.Handler
         #region Methods
         public async Task<Response<List<RoleFullDataDto>>> Handle(GetRolesListQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var RoleList = await _roleService.GetAll();
+            var RoleList = await _roleService.GetAllAsync();
             if (RoleList == null)
                 return NotFound<List<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
             var RoleFullDataDtoList = _mapper.Map<List<RoleFullDataDto>>(RoleList);
@@ -43,7 +43,7 @@ namespace BaseArchitecture.Core.Features.Roles.Queries.Handler
 
         public async Task<Response<RoleFullDataDto>> Handle(GetRoleByIdQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var Role = await _roleService.GetById(request.RoleId);
+            var Role = await _roleService.GetByIdAsync(request.RoleId);
             if (Role == null)
                 return NotFound<RoleFullDataDto>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
             var RoleFullDataDto = _mapper.Map<RoleFullDataDto>(Role);
@@ -52,7 +52,7 @@ namespace BaseArchitecture.Core.Features.Roles.Queries.Handler
 
         public async Task<Response<PaginatedList<RoleFullDataDto>>> Handle(GetRolesPaginatedListQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var PaginatedList = await _roleService.GetPaginatedList(request.PageNumber, request.PageSize);
+            var PaginatedList = await _roleService.GetPaginatedListAsync(request.PageNumber, request.PageSize);
             if (PaginatedList == null || PaginatedList.Data.Count == 0)
                 return NotFound<PaginatedList<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             var RoleFullDataDtoList = _mapper.Map<List<RoleFullDataDto>>(PaginatedList.Data);

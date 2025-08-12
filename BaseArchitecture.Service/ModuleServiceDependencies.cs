@@ -13,6 +13,7 @@ namespace BaseArchitecture.Service
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IEmailService, EmailService>();
             return services;
         }
     }

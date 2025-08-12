@@ -36,7 +36,7 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
         #region Methods
         public async Task<Response<List<UserFullDataDto>>> Handle(GetUsersListQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var UserList = await _userService.GetAll();
+            var UserList = await _userService.GetAllAsync();
             if (UserList == null)
                 return NotFound<List<UserFullDataDto>>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
             var UserFullDataDtoList = _mapper.Map<List<UserFullDataDto>>(UserList);
@@ -45,7 +45,7 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
 
         public async Task<Response<UserFullDataDto>> Handle(GetUserByIdQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var User = await _userService.GetById(request.UserId);
+            var User = await _userService.GetByIdAsync(request.UserId);
             if (User == null)
                 return NotFound<UserFullDataDto>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
             var UserFullDataDto = _mapper.Map<UserFullDataDto>(User);
@@ -54,7 +54,7 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
 
         public async Task<Response<PaginatedList<UserFullDataDto>>> Handle(GetUsersPaginatedListQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var PaginatedList = await _userService.GetPaginatedList(request.PageNumber, request.PageSize);
+            var PaginatedList = await _userService.GetPaginatedListAsync(request.PageNumber, request.PageSize);
             if (PaginatedList == null || PaginatedList.Data.Count == 0)
                 return NotFound<PaginatedList<UserFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             var UserFullDataDtoList = _mapper.Map<List<UserFullDataDto>>(PaginatedList.Data);
@@ -64,10 +64,10 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
 
         public async Task<Response<List<RoleFullDataDto>>> Handle(GetUserRolesQueryRequestModel request, CancellationToken cancellationToken)
         {
-            var User = await _userService.GetById(request.UserId);
+            var User = await _userService.GetByIdAsync(request.UserId);
             if (User == null)
                 return NotFound<List<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
-            var roles = await _userService.GetUserRoles(User);
+            var roles = await _userService.GetUserRolesAsync(User);
             if (roles == null || roles.Count <= 0)
                 return NotFound<List<RoleFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             var RoleFullDataDtoList = _mapper.Map<List<RoleFullDataDto>>(roles);

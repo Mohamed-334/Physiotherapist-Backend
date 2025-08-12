@@ -34,7 +34,7 @@ namespace BaseArchitecture.Core.Features.Roles.Commands.Validators
         public void ApplyCustomSignUpCommandValidation()
         {
             RuleFor(x => x.Id)
-                .MustAsync(async (RoleId, cancellation) => !(await _roleService.RoleIsUsed(RoleId)))
+                .MustAsync(async (RoleId, cancellation) => !(await _roleService.RoleIsUsedAsync(RoleId)))
                 .WithMessage(_stringLocalizer[AppLocalizationKeys.RoleIsUsed]);
         }
         #endregion

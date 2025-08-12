@@ -168,6 +168,9 @@
   <data name="FailedToAddUser" xml:space="preserve">
     <value>حدث خطأ اثناء اضافة المستخدم</value>
   </data>
+  <data name="FailedToGenerateOtp" xml:space="preserve">
+    <value>حدث خطأ اثناء ارسال رمز التحقق</value>
+  </data>
   <data name="FailedToRemoveOldClaims" xml:space="preserve">
     <value>حدث حطأ اثناء حذف صلاحيات الاستخدام القديمة للمستخدمين</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="FailedToUploadImage" xml:space="preserve">
     <value>حدث خطأ اثناء رفع الصورة</value>
+  </data>
+  <data name="FailedToVerifyOtp" xml:space="preserve">
+    <value>حدث خطأ اثناء التحقق من رمز التحقق</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>هذا الكود غير صحيح</value>
@@ -207,8 +213,17 @@
   <data name="NotFound" xml:space="preserve">
     <value>البيانات غير متوفرة</value>
   </data>
+  <data name="OtpGenerated" xml:space="preserve">
+    <value>تم ارسال رمز التحقق بنجاح</value>
+  </data>
+  <data name="OtpVerified" xml:space="preserve">
+    <value>تم التحقق بنجاح</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>الباسورد</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>تم تغيير كلمة المرور بنجاح</value>
   </data>
   <data name="PasswordNotCorrect" xml:space="preserve">
     <value>هذا الباسورد غير صحيح</value>
