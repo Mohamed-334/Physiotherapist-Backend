@@ -18,11 +18,6 @@
     <None Remove="Features\User\Commands\DTO\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BaseArchitecture.Domain\BaseArchitecture.Domain.csproj" />
-    <ProjectReference Include="..\BaseArchitecture.Infrastructure\BaseArchitecture.Infrastructure.csproj" />
-    <ProjectReference Include="..\BaseArchitecture.Service\BaseArchitecture.Service.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Features\Authentication\Dto\" />
@@ -38,6 +33,12 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BaseArchitecture.Domain\PhysiotherapistProject.Domain.csproj" />
+    <ProjectReference Include="..\BaseArchitecture.Infrastructure\PhysiotherapistProject.Infrastructure.csproj" />
+    <ProjectReference Include="..\BaseArchitecture.Service\PhysiotherapistProject.Service.csproj" />
   </ItemGroup>
 
 </Project>

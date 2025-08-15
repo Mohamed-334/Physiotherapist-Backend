@@ -20,12 +20,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BaseArchitecture.Core\BaseArchitecture.Core.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BaseArchitecture.Core\PhysiotherapistProject.Core.csproj" />
   </ItemGroup>
 
 </Project>
