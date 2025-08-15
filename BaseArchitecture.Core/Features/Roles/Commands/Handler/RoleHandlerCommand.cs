@@ -22,15 +22,17 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         private readonly IMapper _mapper;
         private readonly IAuthenticationService _authenticationService;
         private readonly IRoleService _roleService;
+        private readonly IAuthenticatedUserService _authenticatedUserService;
         #endregion
 
         #region Constructor
-        public RoleHandlerCommand(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService, IRoleService roleService) : base(stringLocalizer)
+        public RoleHandlerCommand(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService, IRoleService roleService, IAuthenticatedUserService authenticatedUserService) : base(stringLocalizer)
         {
             _stringLocalizer = stringLocalizer;
             _mapper = mapper;
             _authenticationService = authenticationService;
             _roleService = roleService;
+            _authenticatedUserService = authenticatedUserService;
         }
         #endregion
 
@@ -73,6 +75,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             if (user == null)
                 return NotFound<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             user.IsDeleted = !(user.IsDeleted);
+            user.DeletionDate = DateTime.UtcNow;
+            user.DeleterName = _authenticatedUserService.GetAuthenticatedUserName();
             var result = await _roleService.EditAsync(user);
 
             if (!result.Succeeded)

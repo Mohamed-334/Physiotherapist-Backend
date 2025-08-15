@@ -29,7 +29,7 @@
     <Folder Include="Features\Authentication\Queries\Handlers\" />
     <Folder Include="Features\Authentication\Queries\Request Models\" />
     <Folder Include="Features\User\Commands\Validator\" />
-    <Folder Include="Mapping\AuthenticationMapping\QuaryMapping\" />
+    <Folder Include="Mapping\Entities\AuthenticationMapping\QuaryMapping\" />
   </ItemGroup>
 
   <ItemGroup>

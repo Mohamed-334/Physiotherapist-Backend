@@ -9,7 +9,7 @@ namespace BaseArchitecture.Presentation.Controllers
     public class AuthenticationController : BaseControllerApp
     {
         [HttpPost(Router.AuthenticationRouting.SignUp)]
-        public async Task<IActionResult> SignUp([FromBody] SignUpCommandRequestModel request)
+        public async Task<IActionResult> SignUp([FromForm] SignUpCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);

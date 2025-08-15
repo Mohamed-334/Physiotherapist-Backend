@@ -14,6 +14,8 @@ namespace BaseArchitecture.Service
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+            services.AddScoped<IFileService, FileService>();
             return services;
         }
     }

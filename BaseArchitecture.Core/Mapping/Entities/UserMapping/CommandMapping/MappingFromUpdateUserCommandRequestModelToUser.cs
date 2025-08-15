@@ -1,4 +1,5 @@
 ﻿using BaseArchitecture.Core.Features.ApplicationUser.Commands.RequestModels;
+using BaseArchitecture.Core.Mapping.Shared;
 using BaseArchitecture.Domain.Entities;
 
 namespace BaseArchitecture.Core.Mapping.UserMapping
@@ -8,13 +9,7 @@ namespace BaseArchitecture.Core.Mapping.UserMapping
         public void MappingFromUpdateUserCommandRequestModelToUser()
         {
             CreateMap<UpdateUserCommandRequestQuery, User>()
-                .AfterMap((RequestModel, entity) =>
-                {
-                    if (entity.CreationDate == null || entity.CreationDate == default(DateTime))
-                        entity.CreationDate = DateTime.Now;
-                    else
-                        entity.ModificationDate = DateTime.Now;
-                });
+                .AfterMap<MetaMappingDataBasedOnDestination<UpdateUserCommandRequestQuery, User>>();
 
         }
     }

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\BaseArchitecture.Core\BaseArchitecture.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

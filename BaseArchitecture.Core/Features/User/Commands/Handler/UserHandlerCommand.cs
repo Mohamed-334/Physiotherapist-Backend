@@ -22,15 +22,17 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Commands.Handler
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
+        private readonly IAuthenticatedUserService _authenticatedUserService;
         #endregion
 
         #region Constructor
-        public UserHandlerCommand(IMapper mapper, IStringLocalizer<AppLocalization> stringLocalizer, UserManager<User> userManager, IUserService userService) : base(stringLocalizer)
+        public UserHandlerCommand(IMapper mapper, IStringLocalizer<AppLocalization> stringLocalizer, UserManager<User> userManager, IUserService userService, IAuthenticatedUserService authenticatedUserService) : base(stringLocalizer)
         {
             _mapper = mapper;
             _stringLocalizer = stringLocalizer;
             _userManager = userManager;
             _userService = userService;
+            _authenticatedUserService = authenticatedUserService;
         }
         #endregion
 
@@ -84,6 +86,8 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Commands.Handler
             if (user == null)
                 return NotFound<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             user.IsDeleted = !(user.IsDeleted);
+            user.DeletionDate = DateTime.UtcNow;
+            user.DeleterName = _authenticatedUserService.GetAuthenticatedUserName();
             var result = await _userService.EditAsync(user);
 
             if (!result.Succeeded)

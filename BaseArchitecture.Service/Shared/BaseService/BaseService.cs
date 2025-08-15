@@ -1,4 +1,4 @@
-﻿using BaseArchitecture.Domain.Shared.BaseEntity;
+﻿using BaseArchitecture.Domain.Shared.BaseEntity.Implementations;
 using BaseArchitecture.Infrastructure.Shared.Interfaces;
 using BaseArchitecture.Infrastructure.Shared.Localization;
 using BaseArchitecture.Service.Shared.ExtensionMethods;

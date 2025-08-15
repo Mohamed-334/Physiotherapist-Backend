@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BaseArchitecture.Domain.Shared.BaseEntity.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.Globalization;
 namespace BaseArchitecture.Domain.Entities
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser<int>, IBaseEntityWithName
     {
         public string? Name { get; set; }
         public string? NameLocalization { get; set; }
@@ -11,8 +12,11 @@ namespace BaseArchitecture.Domain.Entities
         public DateTime? CreationDate { get; set; } = DateTime.Now;
         public string? ModifierName { get; set; }
         public DateTime? ModificationDate { get; set; } = DateTime.Now;
+        public string? DeleterName { get; set; }
+        public DateTime? DeletionDate { get; set; }
         public string? Address { get; set; }
         public string? NationalNumber { get; set; }
+        public string? ProfileImage { get; set; }
 
         public string? GetLocalizedName()
         {

@@ -1,5 +1,6 @@
 ﻿using BaseArchitecture.Core.Shared.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.RequestModels
 {
@@ -15,6 +16,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.RequestModels
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
         public string? Role { get; set; }
+        public IFormFile? ProfileImageFile { get; set; }
 
     }
 }

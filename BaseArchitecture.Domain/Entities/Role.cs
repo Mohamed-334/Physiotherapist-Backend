@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BaseArchitecture.Domain.Shared.BaseEntity.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.Globalization;
 
 namespace BaseArchitecture.Domain.Entities
 {
-    public class Role : IdentityRole<int>
+    public class Role : IdentityRole<int>, IBaseEntityWithName
     {
         public string? NameLocalization { get; set; }
         public bool IsDeleted { get; set; } = false;
         public string? CreatorName { get; set; }
-        public DateTime? CreationDate { get; set; } = DateTime.Now;
+        public DateTime? CreationDate { get; set; }
         public string? ModifierName { get; set; }
-        public DateTime? ModificationDate { get; set; } = DateTime.Now;
+        public DateTime? ModificationDate { get; set; }
+        public string? DeleterName { get; set; }
+        public DateTime? DeletionDate { get; set; }
 
         public string? GetLocalizedName()
         {

@@ -7,6 +7,7 @@ using BaseArchitecture.Infrastructure.Shared.Localization;
 using BaseArchitecture.Service.ServiceInterfaces;
 using BaseArchitecture.Service.Shared.PaginatedList;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
@@ -22,14 +23,16 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
         private readonly IUserService _userService;
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region Constructor
-        public UserHandlerQuery(IUserService userService, IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper) : base(stringLocalizer)
+        public UserHandlerQuery(IUserService userService, IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(stringLocalizer)
         {
             _userService = userService;
             _stringLocalizer = stringLocalizer;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
         #endregion
 
@@ -48,6 +51,10 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
             var User = await _userService.GetByIdAsync(request.UserId);
             if (User == null)
                 return NotFound<UserFullDataDto>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
+
+            var HttpRequest = _httpContextAccessor.HttpContext.Request;
+            var baseUrl = $"{HttpRequest.Scheme}://{HttpRequest.Host}";
+            User.ProfileImage = baseUrl + User.ProfileImage;
             var UserFullDataDto = _mapper.Map<UserFullDataDto>(User);
             return Success(UserFullDataDto, _stringLocalizer[AppLocalizationKeys.Success]);
         }

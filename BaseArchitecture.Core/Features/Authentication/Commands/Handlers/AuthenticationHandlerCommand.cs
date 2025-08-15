@@ -7,6 +7,7 @@ using BaseArchitecture.Service.ServiceInterfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
@@ -26,16 +27,20 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
+        private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         #endregion
 
         #region Constructor
-        public AuthenticationHandlerCommand(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService, IUserService userService, IEmailService emailService) : base(stringLocalizer)
+        public AuthenticationHandlerCommand(IStringLocalizer<AppLocalization> stringLocalizer, IMapper mapper, IAuthenticationService authenticationService, IUserService userService, IEmailService emailService, IFileService fileService, IHttpContextAccessor httpContextAccessor) : base(stringLocalizer)
         {
             _stringLocalizer = stringLocalizer;
             _mapper = mapper;
             _authenticationService = authenticationService;
             _userService = userService;
             _emailService = emailService;
+            _fileService = fileService;
+            _httpContextAccessor = httpContextAccessor;
         }
         #endregion
 
@@ -43,6 +48,14 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
         public async Task<Response<string>> Handle(SignUpCommandRequestModel request, CancellationToken cancellationToken)
         {
             var User = _mapper.Map<User>(request);
+            var ImageUploadingResult = await _fileService.UploadImage("Users", request.ProfileImageFile);
+            if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.FailedToUploadImage])
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToUploadImage]);
+
+            else if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.NoImage])
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.NoImage]);
+
+            User.ProfileImage = ImageUploadingResult;
             var result = await _authenticationService.SignUpAsync(User, request.Password);
             if (!result.Succeeded)
             {

@@ -1,6 +1,7 @@
 ﻿using BaseArchitecture.Core.Shared.ValidationBase;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -16,12 +17,16 @@ namespace BaseArchitecture.Core
             // Register MediatR for CQRS pattern
             Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-            // Register AutoMapper for object mapping
+            // Register AutoMapper for object mapping]
             Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 
             // Get Validators
             Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBase<,>));
+
+            Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
             return Services;
         }

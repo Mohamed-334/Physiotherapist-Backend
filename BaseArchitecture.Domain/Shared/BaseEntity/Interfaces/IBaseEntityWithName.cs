@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 
-namespace BaseArchitecture.Domain.Shared.BaseEntity
+namespace BaseArchitecture.Domain.Shared.BaseEntity.Interfaces
 {
-    public class BaseEntityWithName : BaseEntity
+    public interface IBaseEntityWithName : IBaseEntity
     {
         public string? Name { get; set; }
         public string? NameLocalization { get; set; }
