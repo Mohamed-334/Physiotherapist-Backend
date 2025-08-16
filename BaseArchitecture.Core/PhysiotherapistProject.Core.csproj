@@ -23,6 +23,7 @@
     <Folder Include="Features\Authentication\Dto\" />
     <Folder Include="Features\Authentication\Queries\Handlers\" />
     <Folder Include="Features\Authentication\Queries\Request Models\" />
+    <Folder Include="Features\Courses\Commands\Validator\" />
     <Folder Include="Features\User\Commands\Validator\" />
     <Folder Include="Mapping\Entities\AuthenticationMapping\QuaryMapping\" />
   </ItemGroup>

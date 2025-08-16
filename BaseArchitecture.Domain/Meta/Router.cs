@@ -42,5 +42,16 @@
             public const string Prefix = Root + "Email/";
             public const string SendEmail = Prefix + "SendEmail";
         }
+        public static class CourseRouting
+        {
+            public const string Prefix = Root + "Course/";
+            public const string GetById = Prefix + "GetById/{id}";
+            public const string GetList = Prefix + "GetList";
+            public const string GetPaginatedList = Prefix + "GetPaginatedList";
+            public const string Create = Prefix + "Create";
+            public const string Update = Prefix + "Update";
+            public const string Delete = Prefix + "Delete/{id}";
+            public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
+        }
     }
 }

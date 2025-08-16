@@ -31,10 +31,6 @@
 		</EmbeddedResource>
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="RepositoryInterfaces\" />
-    <Folder Include="Repository\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BaseArchitecture.Domain\PhysiotherapistProject.Domain.csproj" />
   </ItemGroup>
 

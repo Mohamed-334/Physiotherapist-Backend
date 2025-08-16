@@ -28,14 +28,14 @@ namespace BaseArchitecture.Service.Shared.BaseService
         #endregion
 
         #region Actions
-        public async virtual Task<List<TEntity>> GetAll()
+        public async virtual Task<List<TEntity>> GetAllAsync()
         {
             var List = await _baseRepository
                             .GetTableAsTracking()
                             .ToListAsync();
             return List;
         }
-        public async virtual Task<TEntity> GetById(int id)
+        public async virtual Task<TEntity> GetByIdAsync(int id)
         {
             var Entity = await _baseRepository
                             .GetByIdAsync(id);
@@ -43,8 +43,16 @@ namespace BaseArchitecture.Service.Shared.BaseService
         }
         public async Task<string> AddAsync(TEntity entity)
         {
-            await _baseRepository.AddAsync(entity);
-            return _stringLocalizer[AppLocalizationKeys.Success];
+            try
+            {
+                await _baseRepository.AddAsync(entity);
+                return _stringLocalizer[AppLocalizationKeys.Success];
+            }
+            catch (Exception)
+            {
+
+                return _stringLocalizer[AppLocalizationKeys.AddFailed];
+            }
         }
         public async Task<string> EditAsync(TEntity entity)
         {
@@ -97,7 +105,7 @@ namespace BaseArchitecture.Service.Shared.BaseService
                 return _stringLocalizer[AppLocalizationKeys.DeletedFailed];
             }
         }
-        public async virtual Task<PaginatedList<TEntity>> GetPaginatedList(int pageNumber = 1, int pageSize = 10)
+        public async virtual Task<PaginatedList<TEntity>> GetPaginatedListAsync(int pageNumber = 1, int pageSize = 10)
         {
             var Queryable = _baseRepository
                             .GetTableNoTracking()

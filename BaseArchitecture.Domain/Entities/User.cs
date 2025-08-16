@@ -1,5 +1,6 @@
 ﻿using BaseArchitecture.Domain.Shared.BaseEntity.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using PhysiotherapistProject.Domain.Entities;
 using System.Globalization;
 namespace BaseArchitecture.Domain.Entities
 {
@@ -17,7 +18,7 @@ namespace BaseArchitecture.Domain.Entities
         public string? Address { get; set; }
         public string? NationalNumber { get; set; }
         public string? ProfileImage { get; set; }
-
+        public ICollection<UserCourse>? UserCourses { get; set; } = new HashSet<UserCourse>();
         public string? GetLocalizedName()
         {
             if (string.IsNullOrEmpty(NameLocalization))
