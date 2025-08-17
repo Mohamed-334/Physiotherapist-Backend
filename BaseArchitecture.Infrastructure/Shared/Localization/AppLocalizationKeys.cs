@@ -59,5 +59,6 @@
         public const string OtpVerified = "OtpVerified";
         public const string FailedToVerifyOtp = "FailedToVerifyOtp";
         public const string PasswordChanged = "PasswordChanged";
+        public const string CourseNameIsExist = "CourseNameIsExist";
     }
 }

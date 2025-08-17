@@ -138,6 +138,9 @@
   <data name="ConfirmEmailDone" xml:space="preserve">
     <value>Confirm Email Done</value>
   </data>
+  <data name="CourseNameIsExist" xml:space="preserve">
+    <value>Course Name Is Already Exists</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>Added Successfully</value>
   </data>

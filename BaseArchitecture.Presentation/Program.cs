@@ -71,7 +71,7 @@ namespace BaseArchitecture.Presentation
             // Register the DbContext with the connection string from configuration
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("BaseArchitecture"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Physiotherapist"));
             });
 
             #endregion

@@ -8,6 +8,7 @@ namespace PhysiotherapistProject.Core.Mapping.Entities.CourseMapping
         {
             MapFromCourseToCourseDto();
             MapFromAddCourseCommandRequestModelToCourse();
+            MapFromUpdateCourseCommandRequestModelToCourse();
         }
     }
 }

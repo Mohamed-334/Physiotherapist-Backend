@@ -1,6 +1,8 @@
 ﻿using BaseArchitecture.Service.Service;
 using BaseArchitecture.Service.ServiceInterfaces;
 using Microsoft.Extensions.DependencyInjection;
+using PhysiotherapistProject.Service.Service;
+using PhysiotherapistProject.Service.ServiceInterfaces;
 
 namespace BaseArchitecture.Service
 {
@@ -16,6 +18,9 @@ namespace BaseArchitecture.Service
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<IUserCourseService, UserCourseService>();
             return services;
         }
     }

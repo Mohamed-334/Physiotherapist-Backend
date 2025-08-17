@@ -18,5 +18,9 @@ namespace PhysiotherapistProject.Infrastructure.Repository
             _set = context.Set<Course>();
         }
         #endregion
+
+        #region Methods
+        public async Task<bool> IsCourseNameExistAsync(string courseName, string CourseNameLocalization) => await _set.AnyAsync(x => x.Name == courseName || x.NameLocalization == CourseNameLocalization);
+        #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BaseArchitecture.Domain.Shared.BaseEntity.Implementations;
-
 namespace PhysiotherapistProject.Domain.Entities
 {
     public class Course : BaseEntityWithName
@@ -7,5 +6,6 @@ namespace PhysiotherapistProject.Domain.Entities
         public int TotalSessions { get; set; }
         public int TotalCompletedSessions { get; set; }
         public ICollection<UserCourse>? UserCourses { get; set; } = new HashSet<UserCourse>();
+
     }
 }

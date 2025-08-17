@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore;
-using BaseArchitecture.Infrastructure.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BaseArchitecture.Domain.Shared.BaseEntity.Implementations;
 using BaseArchitecture.Infrastructure.Context;
+using BaseArchitecture.Infrastructure.Shared.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BaseArchitecture.Infrastructure.Shared.BaseRepository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         #region Props
 

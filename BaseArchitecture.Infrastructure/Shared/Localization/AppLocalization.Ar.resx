@@ -138,6 +138,9 @@
   <data name="ConfirmEmailDone" xml:space="preserve">
     <value>تم تأكيد الايميل بنجاح</value>
   </data>
+  <data name="CourseNameIsExist" xml:space="preserve">
+    <value>هذا الكورس موجود بالفعل</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>تم الاضافة بنجاح</value>
   </data>
