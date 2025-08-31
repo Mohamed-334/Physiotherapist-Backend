@@ -15,37 +15,37 @@ namespace BaseArchitecture.Presentation.Controllers
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.SignIn)]
-        public async Task<IActionResult> SignIn([FromBody] SignInCommandRequestModel request)
+        public async Task<IActionResult> SignIn([FromForm] SignInCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.VerifyRegistrationOtp)]
-        public async Task<IActionResult> VerifyRegistrationOtp([FromBody] OtpVerificationCommandRequestModel request)
+        public async Task<IActionResult> VerifyRegistrationOtp([FromForm] OtpVerificationCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.VerifyResetPasswordOtp)]
-        public async Task<IActionResult> VerifyResetPasswordOtp([FromBody] ResetPasswordOtpVerificationCommandRequestModel request)
+        public async Task<IActionResult> VerifyResetPasswordOtp([FromForm] ResetPasswordOtpVerificationCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
         [HttpPut(Router.AuthenticationRouting.ChangePassword)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommandRequestModel request)
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.ResetPasswordRequest)]
-        public async Task<IActionResult> ResetPasswordRequest([FromBody] ResetPasswordRequestCommandRequestModel request)
+        public async Task<IActionResult> ResetPasswordRequest([FromForm] ResetPasswordRequestCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.ResetPassword)]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommandRequestModel request)
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);

@@ -13,8 +13,8 @@ namespace BaseArchitecture.Infrastructure.Context
 
         public DbSet<User> User { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Clinic> Clinics { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);

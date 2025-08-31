@@ -60,5 +60,8 @@
         public const string FailedToVerifyOtp = "FailedToVerifyOtp";
         public const string PasswordChanged = "PasswordChanged";
         public const string CourseNameIsExist = "CourseNameIsExist";
+        public const string PleaseLogin = "PleaseLogin";
+        public const string FailedToBook = "FailedToBook";
+        public const string InvalidBookingDate = "InvalidBookingDate";
     }
 }

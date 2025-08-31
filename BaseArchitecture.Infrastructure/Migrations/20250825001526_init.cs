@@ -73,29 +73,6 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalSessions = table.Column<int>(type: "int", nullable: false),
-                    TotalCompletedSessions = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameLocalization = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -202,35 +179,61 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserCourses",
+                name: "Clinics",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    CompletedSessions = table.Column<int>(type: "int", nullable: false),
+                    StartHour = table.Column<int>(type: "int", nullable: false),
+                    EndHour = table.Column<int>(type: "int", nullable: false),
+                    ClinicMangerId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameLocalization = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserCourses", x => x.Id);
+                    table.PrimaryKey("PK_Clinics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserCourses_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Clinics_AspNetUsers_ClinicMangerId",
+                        column: x => x.ClinicMangerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TotalSessions = table.Column<int>(type: "int", nullable: false),
+                    TotalCompletedSessions = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameLocalization = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserCourses_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
+                        name: "FK_Courses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,24 +247,27 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     SessionNumber = table.Column<int>(type: "int", nullable: false),
                     SessionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StatusLocalization = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusCode = table.Column<int>(type: "int", nullable: false),
                     TreatmentNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserCourseId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameLocalization = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sessions_UserCourses_UserCourseId",
-                        column: x => x.UserCourseId,
-                        principalTable: "UserCourses",
+                        name: "FK_Sessions_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -306,19 +312,19 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sessions_UserCourseId",
-                table: "Sessions",
-                column: "UserCourseId");
+                name: "IX_Clinics_ClinicMangerId",
+                table: "Clinics",
+                column: "ClinicMangerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCourses_CourseId",
-                table: "UserCourses",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserCourses_UserId",
-                table: "UserCourses",
+                name: "IX_Courses_UserId",
+                table: "Courses",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sessions_CourseId",
+                table: "Sessions",
+                column: "CourseId");
         }
 
         /// <inheritdoc />
@@ -340,19 +346,19 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Clinics");
+
+            migrationBuilder.DropTable(
                 name: "Sessions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "UserCourses");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Courses");
         }
     }
 }

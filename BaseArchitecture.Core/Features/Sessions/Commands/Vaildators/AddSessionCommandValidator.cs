@@ -45,9 +45,6 @@ namespace PhysiotherapistProject.Core.Features.Sessions.Commands.Validator
         }
         public void ApplyCustomSignUpCommandValidation()
         {
-            RuleFor(x => x.Name)
-                .MustAsync(async (model, CourseName, cancellation) => !(await _sessionService.IsSessionNameExistAsync(CourseName, model.NameLocalization)))
-                .WithMessage(_stringLocalizer[AppLocalizationKeys.CourseNameIsExist]);
         }
         #endregion
     }

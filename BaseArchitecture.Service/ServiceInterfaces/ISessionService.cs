@@ -6,5 +6,6 @@ namespace PhysiotherapistProject.Service.ServiceInterfaces
     public interface ISessionService : IBaseService<Session>
     {
         Task<bool> IsSessionNameExistAsync(string SessionName, string SessionNameLocalization);
+        Task<bool> IsNewSessionTimeAvailable(DateTime Date, int Hour);
     }
 }

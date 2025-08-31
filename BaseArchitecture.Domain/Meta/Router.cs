@@ -75,5 +75,10 @@
             public const string Delete = Prefix + "Delete/{id}";
             public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
         }
+        public static class BookingRouting
+        {
+            public const string Prefix = Root + "Booking/";
+            public const string BookSession = Prefix + "BookSession";
+        }
     }
 }

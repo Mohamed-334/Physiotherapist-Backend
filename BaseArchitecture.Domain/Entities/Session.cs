@@ -11,9 +11,10 @@ namespace PhysiotherapistProject.Domain.Entities
         public string Status { get; set; } = SessionStatusEnum.Pending.ToString();
         public string StatusLocalization { get; set; } = SessionStatusEnum.Pending.GetDisplayName()!;
         public int StatusCode { get; set; } = (int)SessionStatusEnum.Pending;
+        public int SessionTime { get; set; }
         public string? TreatmentNotes { get; set; }
-        [ForeignKey("UserCourse")]
-        public int UserCourseId { get; set; }
-        public UserCourse? UserCourse { get; set; }
+        [ForeignKey("Course")]
+        public int CourseId { get; set; }
+        public Course? Course { get; set; }
     }
 }

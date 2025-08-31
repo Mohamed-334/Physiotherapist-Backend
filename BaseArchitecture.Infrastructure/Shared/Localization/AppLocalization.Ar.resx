@@ -171,6 +171,9 @@
   <data name="FailedToAddUser" xml:space="preserve">
     <value>حدث خطأ اثناء اضافة المستخدم</value>
   </data>
+  <data name="FailedToBook" xml:space="preserve">
+    <value>حدث خطأ اثناء الحجز</value>
+  </data>
   <data name="FailedToGenerateOtp" xml:space="preserve">
     <value>حدث خطأ اثناء ارسال رمز التحقق</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="FailedToVerifyOtp" xml:space="preserve">
     <value>حدث خطأ اثناء التحقق من رمز التحقق</value>
+  </data>
+  <data name="InvalidBookingDate" xml:space="preserve">
+    <value>الحجوزات ممتلئة في هذا المعاد</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>هذا الكود غير صحيح</value>
@@ -236,6 +242,9 @@
   </data>
   <data name="Phone" xml:space="preserve">
     <value>رقم الهاتف</value>
+  </data>
+  <data name="PleaseLogin" xml:space="preserve">
+    <value>من فضلك قم بتسجيل الدخول اولا</value>
   </data>
   <data name="RefreshTokenIsExpired" xml:space="preserve">
     <value>رمز التنشيط الذي تستخدمه انتهت صلاحية</value>

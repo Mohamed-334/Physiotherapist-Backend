@@ -18,7 +18,7 @@ namespace BaseArchitecture.Domain.Entities
         public string? Address { get; set; }
         public string? NationalNumber { get; set; }
         public string? ProfileImage { get; set; }
-        public ICollection<UserCourse>? UserCourses { get; set; } = new HashSet<UserCourse>();
+        public ICollection<Course>? Courses { get; set; } = new HashSet<Course>();
         public string? GetLocalizedName()
         {
             if (string.IsNullOrEmpty(NameLocalization))

@@ -1,6 +1,7 @@
 ﻿using BaseArchitecture.Infrastructure.Shared.Interfaces;
 using BaseArchitecture.Infrastructure.Shared.Localization;
 using BaseArchitecture.Service.Shared.BaseService;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using PhysiotherapistProject.Domain.Entities;
 using PhysiotherapistProject.Infrastructure.RepositoryInterfaces;
@@ -25,6 +26,13 @@ namespace PhysiotherapistProject.Service.Service
 
         #region Methods
         public async Task<bool> IsSessionNameExistAsync(string SessionName, string SessionNameLocalization) => await _sessionRepository.IsSessionNameExistAsync(SessionName, SessionNameLocalization);
+        public async Task<bool> IsNewSessionTimeAvailable(DateTime Date, int Hour)
+        {
+            var Sessions = await _sessionRepository.GetTableNoTracking()
+                                            .Where(s => s.SessionDate == Date && s.SessionTime == Hour)
+                                            .CountAsync();
+            return Sessions < 10;
+        }
         #endregion
 
     }

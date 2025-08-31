@@ -283,6 +283,57 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Clinic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClinicMangerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeleterName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EndHour")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifierName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameLocalization")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StartHour")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicMangerId");
+
+                    b.ToTable("Clinics");
+                });
+
             modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -324,7 +375,12 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<int>("TotalSessions")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Courses");
                 });
@@ -336,6 +392,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
@@ -384,61 +443,11 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<string>("TreatmentNotes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserCourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserCourseId");
-
-                    b.ToTable("Sessions");
-                });
-
-            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.UserCourse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompletedSessions")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeleterName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifierName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserCourses");
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -492,47 +501,45 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Session", b =>
+            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Clinic", b =>
                 {
-                    b.HasOne("PhysiotherapistProject.Domain.Entities.UserCourse", "UserCourse")
-                        .WithMany("Sessions")
-                        .HasForeignKey("UserCourseId")
+                    b.HasOne("BaseArchitecture.Domain.Entities.User", "ClinicManger")
+                        .WithMany()
+                        .HasForeignKey("ClinicMangerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserCourse");
-                });
-
-            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.UserCourse", b =>
-                {
-                    b.HasOne("PhysiotherapistProject.Domain.Entities.Course", "Course")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BaseArchitecture.Domain.Entities.User", "User")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BaseArchitecture.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserCourses");
+                    b.Navigation("ClinicManger");
                 });
 
             modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Course", b =>
                 {
-                    b.Navigation("UserCourses");
+                    b.HasOne("BaseArchitecture.Domain.Entities.User", "User")
+                        .WithMany("Courses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.UserCourse", b =>
+            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Session", b =>
+                {
+                    b.HasOne("PhysiotherapistProject.Domain.Entities.Course", "Course")
+                        .WithMany("Sessions")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("BaseArchitecture.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Course", b =>
                 {
                     b.Navigation("Sessions");
                 });
