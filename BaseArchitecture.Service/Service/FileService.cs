@@ -26,7 +26,7 @@ namespace BaseArchitecture.Service.Service
         public async Task<string> UploadImage(string DirectorName, IFormFile file)
         {
             var path = _webHostEnvironment.WebRootPath + "/Images/" + DirectorName + "/";
-            if (file.Length > 0)
+            if (file != null || file?.Length > 0)
             {
                 try
                 {

@@ -62,7 +62,7 @@ namespace BaseArchitecture.Service.Service
             return (await _userManager.GetRolesAsync(user)).ToList();
         }
         public async Task<IdentityResult> AddUserToRoleAsync(User user, string role) => await _userManager.AddToRoleAsync(user, role);
-        public async Task<bool> IsUserInRoleAsync(User user, string role) => await _userManager.IsInRoleAsync(user, role);
+        public async Task<bool> IsUserInRoleAsync(User user, string? role) => (role != null && await _userManager.IsInRoleAsync(user, role));
         public async Task<User?> GetUserByEmailAsync(string email) => await _userManager.FindByEmailAsync(email);
         public async Task<bool> IsUserNameExistAsync(string userName) => (await _userManager.FindByNameAsync(userName)) != null;
         public async Task<bool> IsEmailExistAsync(string email) => (await _userManager.FindByEmailAsync(email)) != null;

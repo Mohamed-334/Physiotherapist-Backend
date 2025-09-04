@@ -14,6 +14,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.RequestModels
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public string? Password { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string? ConfirmPassword { get; set; }
         public string? Role { get; set; }
         public IFormFile? ProfileImageFile { get; set; }

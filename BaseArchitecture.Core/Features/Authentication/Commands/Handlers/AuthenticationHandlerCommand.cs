@@ -8,6 +8,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 
 namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
@@ -52,9 +53,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.FailedToUploadImage])
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToUploadImage]);
 
-            else if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.NoImage])
-                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.NoImage]);
-
+            if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.NoImage])
+                User.ProfileImage = null;
             User.ProfileImage = ImageUploadingResult;
             var result = await _authenticationService.SignUpAsync(User, request.Password);
             if (!result.Succeeded)
@@ -69,7 +69,11 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             }
             if (await _userService.IsUserInRoleAsync(User, request.Role))
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.RoleIsUsed]);
-            var RoleResult = await _userService.AddUserToRoleAsync(User, request.Role);
+            IdentityResult RoleResult;
+            if (request.Role == null)
+                RoleResult = await _userService.AddUserToRoleAsync(User, "Patient");
+            else
+                RoleResult = await _userService.AddUserToRoleAsync(User, request.Role);
 
             if (!RoleResult.Succeeded)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToAddNewRoles]);

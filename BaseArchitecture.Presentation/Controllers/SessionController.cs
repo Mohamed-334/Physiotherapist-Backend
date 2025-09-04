@@ -1,6 +1,5 @@
 ﻿using BaseArchitecture.Domain.Meta;
 using BaseArchitecture.Presentation.Shared.BaseController;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhysiotherapistProject.Core.Features.Sessions.Commands.RequestModels;
 using PhysiotherapistProject.Core.Features.Sessions.Queries.RequestModels;
@@ -8,7 +7,7 @@ using PhysiotherapistProject.Core.Features.Sessions.Queries.RequestModels;
 namespace PhysiotherapistProject.Presentation.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SessionController : BaseControllerApp
     {
         [HttpGet(Router.SessionRouting.GetById)]
