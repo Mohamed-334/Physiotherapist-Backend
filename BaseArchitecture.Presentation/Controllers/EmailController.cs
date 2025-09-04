@@ -1,13 +1,12 @@
 ﻿using BaseArchitecture.Core.Features.Email.Commands.RequestModels;
 using BaseArchitecture.Domain.Meta;
 using BaseArchitecture.Presentation.Shared.BaseController;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseArchitecture.Presentation.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class EmailController : BaseControllerApp
     {
         [HttpPost(Router.EmailRouting.SendEmail)]

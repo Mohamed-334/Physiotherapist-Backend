@@ -62,6 +62,7 @@ namespace BaseArchitecture.Service.Service
                 new Claim(ClaimTypes.Email, user.Email!),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? ""),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("ProfileImage", user.ProfileImage ?? ""),
             };
 
             foreach (var role in roles)

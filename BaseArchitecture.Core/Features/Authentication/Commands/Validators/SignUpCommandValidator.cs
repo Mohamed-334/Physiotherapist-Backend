@@ -33,9 +33,6 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Validators
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.Role)
-                .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
-                .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);

@@ -28,8 +28,8 @@ namespace BaseArchitecture.Infrastructure.Seeder
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                 };
-                await _userManager.CreateAsync(defaultUser, "Admin.123");
-                await _userManager.AddToRoleAsync(defaultUser, "Admin");
+                await _userManager.CreateAsync(defaultUser, "Doctor.123");
+                await _userManager.AddToRoleAsync(defaultUser, "Doctor");
             }
         }
     }

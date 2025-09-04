@@ -14,17 +14,25 @@ namespace BaseArchitecture.Infrastructure.Seeder
 
                 await _roleManager.CreateAsync(new Role()
                 {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                    NameLocalization = "مدير",
+                    Name = "Patient",
+                    NormalizedName = "PATIENT",
+                    NameLocalization = "مريض",
                     CreationDate = DateTime.Now,
                     CreatorName = "System",
                 });
                 await _roleManager.CreateAsync(new Role()
                 {
-                    Name = "User",
-                    NormalizedName = "USER",
-                    NameLocalization = "مستخدم",
+                    Name = "Doctor",
+                    NormalizedName = "DOCTOR",
+                    NameLocalization = "دكتور",
+                    CreationDate = DateTime.Now,
+                    CreatorName = "System",
+                });
+                await _roleManager.CreateAsync(new Role()
+                {
+                    Name = "Intern",
+                    NormalizedName = "INTERN",
+                    NameLocalization = "طالب امتياز",
                     CreationDate = DateTime.Now,
                     CreatorName = "System",
                 });

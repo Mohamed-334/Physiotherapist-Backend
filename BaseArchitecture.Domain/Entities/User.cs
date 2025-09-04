@@ -15,6 +15,7 @@ namespace BaseArchitecture.Domain.Entities
         public DateTime? ModificationDate { get; set; } = DateTime.Now;
         public string? DeleterName { get; set; }
         public DateTime? DeletionDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string? Address { get; set; }
         public string? NationalNumber { get; set; }
         public string? ProfileImage { get; set; }

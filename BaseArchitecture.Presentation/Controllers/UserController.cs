@@ -2,13 +2,12 @@
 using BaseArchitecture.Core.Features.ApplicationUser.Queries.RequestModels;
 using BaseArchitecture.Domain.Meta;
 using BaseArchitecture.Presentation.Shared.BaseController;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseArchitecture.Presentation.Controllers
 {
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class UserController : BaseControllerApp
     {
         [HttpGet(Router.UserRouting.GetById)]
