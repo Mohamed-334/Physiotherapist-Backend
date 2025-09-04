@@ -1,9 +1,0 @@
-﻿using BaseArchitecture.Infrastructure.Shared.Interfaces;
-using PhysiotherapistProject.Domain.Entities;
-
-namespace PhysiotherapistProject.Infrastructure.RepositoryInterfaces
-{
-    public interface IUserCourseRepository : IBaseRepository<UserCourse>
-    {
-    }
-}

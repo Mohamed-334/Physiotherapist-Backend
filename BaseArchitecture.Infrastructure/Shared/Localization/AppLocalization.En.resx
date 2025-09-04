@@ -171,6 +171,9 @@
   <data name="FailedToAddUser" xml:space="preserve">
     <value>Failed To Add User.</value>
   </data>
+  <data name="FailedToBook" xml:space="preserve">
+    <value>Failed To Book The Session</value>
+  </data>
   <data name="FailedToGenerateOtp" xml:space="preserve">
     <value>Faild To Send the Otp</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="FailedToVerifyOtp" xml:space="preserve">
     <value>Faild to verify the otp</value>
+  </data>
+  <data name="InvalidBookingDate" xml:space="preserve">
+    <value>This Date &amp; Time Not Available now</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>Invalid Code</value>
@@ -236,6 +242,9 @@
   </data>
   <data name="Phone" xml:space="preserve">
     <value>The Phone</value>
+  </data>
+  <data name="PleaseLogin" xml:space="preserve">
+    <value>Please Login</value>
   </data>
   <data name="RefreshTokenIsExpired" xml:space="preserve">
     <value>Refresh Token Is Expired</value>

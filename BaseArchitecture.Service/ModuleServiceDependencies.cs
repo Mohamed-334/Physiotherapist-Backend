@@ -20,7 +20,6 @@ namespace BaseArchitecture.Service
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ISessionService, SessionService>();
-            services.AddScoped<IUserCourseService, UserCourseService>();
             return services;
         }
     }

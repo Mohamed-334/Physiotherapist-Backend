@@ -23,8 +23,10 @@
     <Folder Include="Features\Authentication\Dto\" />
     <Folder Include="Features\Authentication\Queries\Handlers\" />
     <Folder Include="Features\Authentication\Queries\Request Models\" />
+    <Folder Include="Features\Booking\Dto\" />
     <Folder Include="Features\User\Commands\Validator\" />
     <Folder Include="Mapping\Entities\AuthenticationMapping\QuaryMapping\" />
+    <Folder Include="Mapping\Entities\BookMapping\QueryMapping\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,5 +42,6 @@
     <ProjectReference Include="..\BaseArchitecture.Infrastructure\PhysiotherapistProject.Infrastructure.csproj" />
     <ProjectReference Include="..\BaseArchitecture.Service\PhysiotherapistProject.Service.csproj" />
   </ItemGroup>
+
 
 </Project>
