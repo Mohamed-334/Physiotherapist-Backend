@@ -186,11 +186,13 @@ namespace BaseArchitecture.Presentation
             {
                 var Users = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var Roles = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 await RoleSeeder.SeedAsync(Roles);
                 await UserSeeder.SeedAsync(Users);
+                await DbSeeder.SeedAsync(context);
             }
             #endregion
-
+            app.UseStaticFiles();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

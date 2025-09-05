@@ -13,5 +13,8 @@ namespace PhysiotherapistProject.Domain.Entities
         public int? ClinicMangerId { get; set; }
         public User? ClinicManger { get; set; }
 
+        public string? ClinicImage { get; set; }
+        public ICollection<Course>? Courses { get; set; } = new HashSet<Course>();
+
     }
 }

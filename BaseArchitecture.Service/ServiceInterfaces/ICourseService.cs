@@ -7,5 +7,6 @@ namespace PhysiotherapistProject.Service.ServiceInterfaces
     {
         Task<bool> IsCourseNameExistAsync(string courseName, string CourseNameLocalization);
         Task<Course> CreateCourseName();
+        Task<List<Course>> GetCoursesByUserIdsAsync(int UserId);
     }
 }

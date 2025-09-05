@@ -42,6 +42,14 @@ namespace PhysiotherapistProject.Service.Service
             };
             return Course;
         }
+
+        public async Task<List<Course>> GetCoursesByUserIdsAsync(int UserId)
+        {
+            var courses = await _courseRepository.GetTableAsTracking()
+                .Where(c => c.UserId == UserId)
+                .ToListAsync();
+            return courses;
+        }
         #endregion
 
     }
