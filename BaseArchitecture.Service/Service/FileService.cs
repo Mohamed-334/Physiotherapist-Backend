@@ -39,7 +39,7 @@ namespace BaseArchitecture.Service.Service
                         path += file.FileName;
                         await file.CopyToAsync(fileStream);
                         await fileStream.FlushAsync();
-                        return $"/wwwroot/Images/{DirectorName}/{file.FileName}";
+                        return $"/Images/{DirectorName}/{file.FileName}";
                     }
                 }
                 catch (Exception)

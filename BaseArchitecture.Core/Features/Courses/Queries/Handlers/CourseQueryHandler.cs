@@ -11,6 +11,7 @@ using PhysiotherapistProject.Service.ServiceInterfaces;
 namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
 {
     public class CourseQueryHandler : ResponseHandler, IRequestHandler<GetCourseByIdQueryRequestModel, Response<CourseDto>>,
+                                                       IRequestHandler<GetCourseByUserIdQueryRequestModel, Response<List<CourseDto>>>,
                                                        IRequestHandler<GetCourseListQueryRequestModel, Response<List<CourseDto>>>,
                                                        IRequestHandler<GetCoursePaginatedListQueryRequestModel, Response<PaginatedList<CourseDto>>>
     {
@@ -60,6 +61,15 @@ namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
             var RoleFullDataDtoList = _mapper.Map<List<CourseDto>>(PaginatedList.Data);
             var paginatedListDto = PaginatedList<CourseDto>.Success(RoleFullDataDtoList, PaginatedList.TotalCount, PaginatedList.CurrentPage, PaginatedList.PageSize);
             return Success(paginatedListDto, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<List<CourseDto>>> Handle(GetCourseByUserIdQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var Courses = await _courseService.GetCoursesByUserIdsAsync(request.Id);
+            if (Courses == null)
+                return NotFound<List<CourseDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var CourseDto = _mapper.Map<List<CourseDto>>(Courses);
+            return Success(CourseDto, _stringLocalizer[AppLocalizationKeys.Success]);
         }
         #endregion
     }

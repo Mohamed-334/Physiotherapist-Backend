@@ -33,6 +33,12 @@ namespace PhysiotherapistProject.Service.Service
                                             .CountAsync();
             return Sessions < 10;
         }
+        public async Task<List<Session>> GetSessionsByCourseIdAsync(int CourseId)
+        {
+            return await _sessionRepository.GetTableNoTracking()
+                .Where(s => s.CourseId == CourseId)
+                .ToListAsync();
+        }
         #endregion
 
     }

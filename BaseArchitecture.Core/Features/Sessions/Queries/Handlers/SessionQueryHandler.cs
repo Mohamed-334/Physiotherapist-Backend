@@ -11,8 +11,9 @@ using PhysiotherapistProject.Service.ServiceInterfaces;
 namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
 {
     public class SessionQueryHandler : ResponseHandler, IRequestHandler<GetSessionByIdQueryRequestModel, Response<SessionDto>>,
-                                                       IRequestHandler<GetSessionListQueryRequestModel, Response<List<SessionDto>>>,
-                                                       IRequestHandler<GetSessionPaginatedListQueryRequestModel, Response<PaginatedList<SessionDto>>>
+                                                        IRequestHandler<GetSessionByCourseIdQueryRequestModel, Response<List<SessionDto>>>,
+                                                        IRequestHandler<GetSessionListQueryRequestModel, Response<List<SessionDto>>>,
+                                                        IRequestHandler<GetSessionPaginatedListQueryRequestModel, Response<PaginatedList<SessionDto>>>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
@@ -60,6 +61,15 @@ namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
             var SessionDtoList = _mapper.Map<List<SessionDto>>(PaginatedList.Data);
             var paginatedListDto = PaginatedList<SessionDto>.Success(SessionDtoList, PaginatedList.TotalCount, PaginatedList.CurrentPage, PaginatedList.PageSize);
             return Success(paginatedListDto, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<List<SessionDto>>> Handle(GetSessionByCourseIdQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var Sessions = await _sessionService.GetSessionsByCourseIdAsync(request.Id);
+            if (Sessions == null)
+                return NotFound<List<SessionDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var CourseDto = _mapper.Map<List<SessionDto>>(Sessions);
+            return Success(CourseDto, _stringLocalizer[AppLocalizationKeys.Success]);
         }
         #endregion
     }

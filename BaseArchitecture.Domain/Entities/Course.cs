@@ -10,6 +10,10 @@ namespace PhysiotherapistProject.Domain.Entities
         [ForeignKey("User")]
         public int UserId { get; set; }
         public User? User { get; set; }
+
+        [ForeignKey("Clinic")]
+        public int? ClinicId { get; set; }
+        public Clinic? Clinic { get; set; }
         public ICollection<Session>? Sessions { get; set; } = new HashSet<Session>();
 
     }

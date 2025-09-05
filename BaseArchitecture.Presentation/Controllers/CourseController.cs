@@ -22,6 +22,12 @@ namespace PhysiotherapistProject.Presentation.Controllers
             var response = await _mediator.Send(new GetCourseListQueryRequestModel());
             return Result(response);
         }
+        [HttpGet(Router.CourseRouting.GetByUserId)]
+        public async Task<IActionResult> GetByUserId([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new GetCourseByUserIdQueryRequestModel(id));
+            return Result(response);
+        }
         [HttpPost(Router.CourseRouting.GetPaginatedList)]
         public async Task<IActionResult> GetPaginatedList([FromBody] GetCoursePaginatedListQueryRequestModel request)
         {

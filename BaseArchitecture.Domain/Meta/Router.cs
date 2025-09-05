@@ -47,6 +47,7 @@
             public const string Prefix = Root + "Course/";
             public const string GetById = Prefix + "GetById/{id}";
             public const string GetList = Prefix + "GetList";
+            public const string GetByUserId = Prefix + "GetByUserId/{id}";
             public const string GetPaginatedList = Prefix + "GetPaginatedList";
             public const string Create = Prefix + "Create";
             public const string Update = Prefix + "Update";
@@ -58,6 +59,7 @@
             public const string Prefix = Root + "Session/";
             public const string GetById = Prefix + "GetById/{id}";
             public const string GetList = Prefix + "GetList";
+            public const string GetByCourseId = Prefix + "GetByCourseId/{id}";
             public const string GetPaginatedList = Prefix + "GetPaginatedList";
             public const string Create = Prefix + "Create";
             public const string Update = Prefix + "Update";
