@@ -82,5 +82,16 @@
             public const string Prefix = Root + "Booking/";
             public const string BookSession = Prefix + "BookSession";
         }
+        public static class ClinicRouting
+        {
+            public const string Prefix = Root + "Clinic/";
+            public const string GetById = Prefix + "GetById/{id}";
+            public const string GetList = Prefix + "GetList";
+            public const string GetPaginatedList = Prefix + "GetPaginatedList";
+            public const string Create = Prefix + "Create";
+            public const string Update = Prefix + "Update";
+            public const string Delete = Prefix + "Delete/{id}";
+            public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
+        }
     }
 }

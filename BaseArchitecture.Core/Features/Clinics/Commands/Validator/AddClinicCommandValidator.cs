@@ -1,23 +1,23 @@
 ﻿using BaseArchitecture.Infrastructure.Shared.Localization;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using PhysiotherapistProject.Core.Features.Booking.Commands.RequestModels;
+using PhysiotherapistProject.Core.Features.Clinics.Commands.RequestModels;
 using PhysiotherapistProject.Service.ServiceInterfaces;
 
-namespace PhysiotherapistProject.Core.Features.Courses.Commands.Validator
+namespace PhysiotherapistProject.Core.Features.Clinics.Commands.Validator
 {
-    public class BookSessionCommandValidator : AbstractValidator<BookSessionCommandRequestModel>
+    public class AddClinicCommandValidator : AbstractValidator<AddClinicCommandRequestModel>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
-        private readonly ISessionService _sessionService;
+        private readonly IClinicService _clinicService;
         #endregion
 
         #region Constructor
-        public BookSessionCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer, ISessionService sessionService)
+        public AddClinicCommandValidator(IStringLocalizer<AppLocalization> stringLocalizer, IClinicService clinicService)
         {
             _stringLocalizer = stringLocalizer;
-            _sessionService = sessionService;
+            _clinicService = clinicService;
             ApplySignUpCommandValidation();
             ApplyCustomSignUpCommandValidation();
         }
@@ -27,21 +27,21 @@ namespace PhysiotherapistProject.Core.Features.Courses.Commands.Validator
 
         public void ApplySignUpCommandValidation()
         {
-            RuleFor(x => x.BookType)
+            RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.SessionTime)
+            RuleFor(x => x.NameLocalization)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.SessionDate)
+            RuleFor(x => x.StartHour)
+                .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
+                .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
+            RuleFor(x => x.EndHour)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
         }
         public void ApplyCustomSignUpCommandValidation()
         {
-            RuleFor(x => x.SessionTime)
-                .MustAsync(async (model, SessionTime, cancellation) => (await _sessionService.IsNewSessionTimeAvailable(model.SessionDate, SessionTime)))
-                .WithMessage(_stringLocalizer[AppLocalizationKeys.InvalidBookingDate]);
         }
         #endregion
     }
