@@ -48,7 +48,8 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.Handlers
                 if (SaveCourse == _stringLocalizer[AppLocalizationKeys.AddFailed])
                     return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.AddFailed]);
 
-                var SessionMapper = _mapper.Map<Session>(request);
+                var Session = await _sessionService.CreateSessionName();
+                var SessionMapper = _mapper.Map(request, Session);
                 SessionMapper.CourseId = Course.Id;
                 var SaveSession = await _sessionService.AddAsync(SessionMapper);
                 if (SaveSession == _stringLocalizer[AppLocalizationKeys.AddFailed])
@@ -58,8 +59,11 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.Handlers
             }
             else if (request.BookType == "BookSessionForExistCourse")
             {
-                var Course = await _courseService.GetByIdAsync(request.CourseId);
-                var SessionMapper = _mapper.Map<Session>(request);
+                if (!request.CourseId.HasValue)
+                    return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToBook]);
+                var Course = await _courseService.GetByIdAsync(request.CourseId.Value);
+                var Session = await _sessionService.CreateSessionName();
+                var SessionMapper = _mapper.Map(request, Session);
                 SessionMapper.CourseId = Course.Id;
                 var SaveSession = await _sessionService.AddAsync(SessionMapper);
                 if (SaveSession == _stringLocalizer[AppLocalizationKeys.AddFailed])

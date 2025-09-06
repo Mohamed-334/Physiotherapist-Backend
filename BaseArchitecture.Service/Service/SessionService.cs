@@ -25,6 +25,22 @@ namespace PhysiotherapistProject.Service.Service
         #endregion
 
         #region Methods
+        public async Task<Session> CreateSessionName()
+        {
+            var LastSession = await _sessionRepository.GetTableAsTracking()
+                .OrderBy(c => c.Id)
+                .LastOrDefaultAsync();
+
+            int LastSessionNumber = LastSession == null ? 0 :
+                                   int.Parse(new string(LastSession?.Name?.Where(char.IsDigit).ToArray()));
+
+            var Session = new Session
+            {
+                Name = $"Session{LastSessionNumber + 1}",
+                NameLocalization = $"جلسة{LastSessionNumber + 1}"
+            };
+            return Session;
+        }
         public async Task<bool> IsSessionNameExistAsync(string SessionName, string SessionNameLocalization) => await _sessionRepository.IsSessionNameExistAsync(SessionName, SessionNameLocalization);
         public async Task<bool> IsNewSessionTimeAvailable(DateTime Date, int Hour)
         {

@@ -15,6 +15,7 @@ namespace BaseArchitecture.Infrastructure
             Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             Services.AddScoped(typeof(ICourseRepository), typeof(CourseRepository));
             Services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
+            Services.AddScoped(typeof(IClinicRepository), typeof(ClinicRepository));
             return Services;
         }
     }
