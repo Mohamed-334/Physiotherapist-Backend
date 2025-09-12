@@ -9,6 +9,7 @@
             public const string Prefix = Root + "Authentication/";
             public const string SignUp = Prefix + "SignUp";
             public const string SignIn = Prefix + "SignIn";
+            public const string ResendOtp = Prefix + "ResendOtp";
             public const string VerifyRegistrationOtp = Prefix + "VerifyRegistrationOtp";
             public const string VerifyResetPasswordOtp = Prefix + "VerifyResetPasswordOtp";
             public const string ChangePassword = Prefix + "ChangePassword";

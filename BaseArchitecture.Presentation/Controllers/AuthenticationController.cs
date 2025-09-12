@@ -20,6 +20,12 @@ namespace BaseArchitecture.Presentation.Controllers
             var response = await _mediator.Send(request);
             return Result(response);
         }
+        [HttpPost(Router.AuthenticationRouting.ResendOtp)]
+        public async Task<IActionResult> ResendOtp([FromBody] ResendOtpCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
         [HttpPost(Router.AuthenticationRouting.VerifyRegistrationOtp)]
         public async Task<IActionResult> VerifyRegistrationOtp([FromForm] OtpVerificationCommandRequestModel request)
         {

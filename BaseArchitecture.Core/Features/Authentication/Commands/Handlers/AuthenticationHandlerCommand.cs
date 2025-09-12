@@ -20,7 +20,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
                                         IRequestHandler<OtpVerificationCommandRequestModel, Response<string>>,
                                         IRequestHandler<ResetPasswordRequestCommandRequestModel, Response<string>>,
                                         IRequestHandler<ResetPasswordOtpVerificationCommandRequestModel, Response<string>>,
-                                        IRequestHandler<ResetPasswordCommandRequestModel, Response<string>>
+                                        IRequestHandler<ResetPasswordCommandRequestModel, Response<string>>,
+                                        IRequestHandler<ResendOtpCommandRequestModel, Response<string>>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
@@ -159,7 +160,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
                                 $"Best regards,\n" +
                                 $" Team";
 
-            var result = await _emailService.SendEmailAsync(User.Email, emailMessage, "Reset Password OTP");
+            var result = await _emailService.SendEmailAsync(User.Email!, emailMessage, "Resend OTP");
             if (result == _stringLocalizer[AppLocalizationKeys.SendEmailFailed] || string.IsNullOrEmpty(otp))
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToGenerateOtp]);
 
@@ -188,6 +189,25 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             if (!result.Succeeded)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.ChangePassFailed]);
             return Success<string>(_stringLocalizer[AppLocalizationKeys.PasswordChanged]);
+        }
+
+        public async Task<Response<string>> Handle(ResendOtpCommandRequestModel request, CancellationToken cancellationToken)
+        {
+            var User = await _userService.GetUserByEmailAsync(request.Email!);
+            if (User == null)
+                return NotFound<string>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var otp = await _authenticationService.GenerateOtpAsync(User);
+
+            var emailMessage = $"Hello {User.UserName},\n\n" +
+               $"Your OTP confirmation code is: {otp}\n\n" +
+               "This code will expire in 5 minutes. If you did not request it, please ignore this email.\n\n" +
+               "Best regards,\nYour App Team";
+
+            var result = await _emailService.SendEmailAsync(User.Email!, emailMessage, "Reset Password OTP");
+            if (result == _stringLocalizer[AppLocalizationKeys.SendEmailFailed] || string.IsNullOrEmpty(otp))
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToGenerateOtp]);
+
+            return Success<string>(_stringLocalizer[AppLocalizationKeys.OtpGenerated]);
         }
         #endregion
     }
