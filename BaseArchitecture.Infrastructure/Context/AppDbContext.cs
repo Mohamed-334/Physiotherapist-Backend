@@ -15,6 +15,7 @@ namespace BaseArchitecture.Infrastructure.Context
         public DbSet<Course> Courses { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
+        public DbSet<Report> Reports { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
