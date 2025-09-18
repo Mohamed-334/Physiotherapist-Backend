@@ -312,8 +312,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EndHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("EndHour")
+                        .HasColumnType("time");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -330,8 +330,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<string>("NameLocalization")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StartHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("StartHour")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -422,6 +422,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("MedicalDiagnosis")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
@@ -440,8 +443,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<int>("SessionNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("SessionTime")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("SessionTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("Status")
                         .IsRequired()

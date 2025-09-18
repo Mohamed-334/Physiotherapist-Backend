@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PhysiotherapistProject.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250825001526_init")]
-    partial class init
+    [Migration("20250916120103_AddMedicalDiagnosis")]
+    partial class AddMedicalDiagnosis
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -294,7 +297,10 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClinicMangerId")
+                    b.Property<string>("ClinicImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClinicMangerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreationDate")
@@ -309,8 +315,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EndHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("EndHour")
+                        .HasColumnType("time");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -327,8 +333,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<string>("NameLocalization")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StartHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("StartHour")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -344,6 +350,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ClinicId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
@@ -383,6 +392,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClinicId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Courses");
@@ -414,6 +425,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("MedicalDiagnosis")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
@@ -431,6 +445,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
                     b.Property<int>("SessionNumber")
                         .HasColumnType("int");
+
+                    b.Property<TimeSpan?>("SessionTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -508,20 +525,24 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 {
                     b.HasOne("BaseArchitecture.Domain.Entities.User", "ClinicManger")
                         .WithMany()
-                        .HasForeignKey("ClinicMangerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClinicMangerId");
 
                     b.Navigation("ClinicManger");
                 });
 
             modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Course", b =>
                 {
+                    b.HasOne("PhysiotherapistProject.Domain.Entities.Clinic", "Clinic")
+                        .WithMany("Courses")
+                        .HasForeignKey("ClinicId");
+
                     b.HasOne("BaseArchitecture.Domain.Entities.User", "User")
                         .WithMany("Courses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Clinic");
 
                     b.Navigation("User");
                 });
@@ -538,6 +559,11 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("BaseArchitecture.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("PhysiotherapistProject.Domain.Entities.Clinic", b =>
                 {
                     b.Navigation("Courses");
                 });

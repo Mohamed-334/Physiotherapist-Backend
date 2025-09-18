@@ -15,6 +15,7 @@ namespace PhysiotherapistProject.Core.Features.Sessions.Commands.RequestModels
         public string StatusLocalization { get; set; } = SessionStatusEnum.Pending.GetDisplayName()!;
         public int StatusCode { get; set; } = (int)SessionStatusEnum.Pending;
         public string? TreatmentNotes { get; set; }
-        public int UserCourseId { get; set; }
+        public string? MedicalDiagnosis { get; set; }
+        public int CourseId { get; set; }
     }
 }

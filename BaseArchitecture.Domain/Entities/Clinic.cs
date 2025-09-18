@@ -6,8 +6,8 @@ namespace PhysiotherapistProject.Domain.Entities
 {
     public class Clinic : BaseEntityWithName
     {
-        public int StartHour { get; set; }
-        public int EndHour { get; set; }
+        public TimeSpan? StartHour { get; set; }
+        public TimeSpan? EndHour { get; set; }
 
         [ForeignKey("ClinicManger")]
         public int? ClinicMangerId { get; set; }

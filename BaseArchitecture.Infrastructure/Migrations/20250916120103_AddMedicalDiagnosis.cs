@@ -5,14 +5,14 @@
 namespace PhysiotherapistProject.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addClinicImage : Migration
+    public partial class AddMedicalDiagnosis : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ClinicImage",
-                table: "Clinics",
+                name: "MedicalDiagnosis",
+                table: "Sessions",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -21,8 +21,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ClinicImage",
-                table: "Clinics");
+                name: "MedicalDiagnosis",
+                table: "Sessions");
         }
     }
 }

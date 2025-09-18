@@ -9,6 +9,6 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.RequestModels
         public string BookType { get; set; }
         public int? CourseId { get; set; }
         public DateTime SessionDate { get; set; }
-        public int SessionTime { get; set; }
+        public TimeSpan SessionTime { get; set; }
     }
 }

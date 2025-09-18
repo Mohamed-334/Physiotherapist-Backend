@@ -25,6 +25,15 @@ namespace PhysiotherapistProject.Service.Service
         #endregion
 
         #region Methods
+        public override async Task<Session?> GetByIdAsync(int id)
+        {
+            return await _sessionRepository.GetTableAsTracking()
+                                           .Include(s => s.Course)
+                                           .ThenInclude(c => c.User)
+                                           .Include(s => s.Course)
+                                           .ThenInclude(c => c.Clinic)
+                                           .FirstOrDefaultAsync(s => s.Id == id);
+        }
         public async Task<Session> CreateSessionName()
         {
             var LastSession = await _sessionRepository.GetTableAsTracking()
@@ -42,7 +51,7 @@ namespace PhysiotherapistProject.Service.Service
             return Session;
         }
         public async Task<bool> IsSessionNameExistAsync(string SessionName, string SessionNameLocalization) => await _sessionRepository.IsSessionNameExistAsync(SessionName, SessionNameLocalization);
-        public async Task<bool> IsNewSessionTimeAvailable(DateTime Date, int Hour)
+        public async Task<bool> IsNewSessionTimeAvailable(DateTime Date, TimeSpan Hour)
         {
             var Sessions = await _sessionRepository.GetTableNoTracking()
                                             .Where(s => s.SessionDate == Date && s.SessionTime == Hour)
@@ -54,6 +63,32 @@ namespace PhysiotherapistProject.Service.Service
             return await _sessionRepository.GetTableNoTracking()
                 .Where(s => s.CourseId == CourseId)
                 .ToListAsync();
+        }
+        public async Task<List<Session>> GetSessionsForThisDateAsync(DateTime date)
+        {
+            return await _sessionRepository.GetTableNoTracking()
+                                             .Include(s => s.Course)
+                                             .ThenInclude(s => s.User)
+                                             .Include(s => s.Course)
+                                             .ThenInclude(s => s.Clinic)
+                                             .Where(s => s.SessionDate.Date == date)
+                                             .ToListAsync();
+        }
+        public async Task<List<Session>> GetSessionsByDateFiltersAsync(DateTime? startDate, DateTime? endDate, string? Name)
+        {
+            var Sessions = _sessionRepository.GetTableNoTracking()
+                                             .Include(s => s.Course)
+                                             .ThenInclude(s => s.User)
+                                             .Include(s => s.Course)
+                                             .ThenInclude(s => s.Clinic)
+                                             .AsQueryable();
+            if (startDate != DateTime.MinValue && startDate != null)
+                Sessions = Sessions.Where(s => s.SessionDate.Date >= startDate);
+            if (endDate != DateTime.MinValue && endDate != null)
+                Sessions = Sessions.Where(s => s.SessionDate.Date <= endDate);
+            if (Name != null)
+                Sessions = Sessions.Where(s => s.Course.User.UserName.Contains(Name));
+            return await Sessions.ToListAsync();
         }
         #endregion
 

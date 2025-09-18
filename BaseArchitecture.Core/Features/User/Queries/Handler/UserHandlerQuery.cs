@@ -43,6 +43,26 @@ namespace BaseArchitecture.Core.Features.ApplicationUser.Queries.Handler
             if (UserList == null)
                 return NotFound<List<UserFullDataDto>>(_stringLocalizer[AppLocalizationKeys.UserIsNotFound]);
             var UserFullDataDtoList = _mapper.Map<List<UserFullDataDto>>(UserList);
+            foreach (var userDto in UserFullDataDtoList)
+            {
+                var userEntity = UserList.First(u => u.Id == userDto.Id);
+                var Role = (await _userService.GetUserRolesAsync(userEntity)).FirstOrDefault();
+                switch (Role)
+                {
+                    case "Doctor":
+                        userDto.RoleName = "دكتور";
+                        break;
+                    case "Intern":
+                        userDto.RoleName = "طالب امتياز";
+                        break;
+                    case "Patient":
+                        userDto.RoleName = "مريض";
+                        break;
+                    default:
+                        userDto.RoleName = "مريض";
+                        break;
+                }
+            }
             return Success(UserFullDataDtoList, _stringLocalizer[AppLocalizationKeys.Success], new { TotalCount = UserFullDataDtoList.Count });
         }
 

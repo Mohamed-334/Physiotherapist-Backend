@@ -44,6 +44,7 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.Handlers
                     return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.PleaseLogin]);
                 var Course = await _courseService.CreateCourseName();
                 Course.UserId = UserId;
+                Course.ClinicId = request.ClinicId;
                 var SaveCourse = await _courseService.AddAsync(Course);
                 if (SaveCourse == _stringLocalizer[AppLocalizationKeys.AddFailed])
                     return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.AddFailed]);
@@ -54,6 +55,11 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.Handlers
                 var SaveSession = await _sessionService.AddAsync(SessionMapper);
                 if (SaveSession == _stringLocalizer[AppLocalizationKeys.AddFailed])
                     return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.AddFailed]);
+
+                Course.TotalSessions += 1;
+                var UpdateCourse = await _courseService.EditAsync(Course);
+                if (UpdateCourse == _stringLocalizer[AppLocalizationKeys.UpdateFailed])
+                    return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.UpdateFailed]);
 
                 return Success<string>("");
             }
@@ -68,6 +74,10 @@ namespace PhysiotherapistProject.Core.Features.Booking.Commands.Handlers
                 var SaveSession = await _sessionService.AddAsync(SessionMapper);
                 if (SaveSession == _stringLocalizer[AppLocalizationKeys.AddFailed])
                     return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.AddFailed]);
+                Course.TotalSessions += 1;
+                var UpdateCourse = await _courseService.EditAsync(Course);
+                if (UpdateCourse == _stringLocalizer[AppLocalizationKeys.UpdateFailed])
+                    return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.UpdateFailed]);
                 return Success<string>("");
             }
             return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToBook]);

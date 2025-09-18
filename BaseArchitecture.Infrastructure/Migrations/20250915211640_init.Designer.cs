@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PhysiotherapistProject.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250905163941_addClinicRelations")]
-    partial class addClinicRelations
+    [Migration("20250915211640_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -297,6 +297,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ClinicImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ClinicMangerId")
                         .HasColumnType("int");
 
@@ -312,8 +315,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EndHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("EndHour")
+                        .HasColumnType("time");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -330,8 +333,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<string>("NameLocalization")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StartHour")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("StartHour")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -440,8 +443,8 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     b.Property<int>("SessionNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("SessionTime")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan?>("SessionTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("Status")
                         .IsRequired()

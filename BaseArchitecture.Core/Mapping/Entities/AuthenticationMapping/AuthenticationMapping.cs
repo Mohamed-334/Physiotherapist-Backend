@@ -8,6 +8,7 @@ namespace BaseArchitecture.Core.Mapping.AuthenticationMapping
         public AuthenticationMapping()
         {
             MapFromSignupCommandRequestModelToUser();
+            MapFromSignUpWithNoVerifyCommandRequestModelToUser();
         }
         #endregion
     }
