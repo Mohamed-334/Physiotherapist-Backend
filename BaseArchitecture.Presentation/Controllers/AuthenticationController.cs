@@ -14,6 +14,12 @@ namespace BaseArchitecture.Presentation.Controllers
             var response = await _mediator.Send(request);
             return Result(response);
         }
+        [HttpPost(Router.AuthenticationRouting.SignUpWithNoVerify)]
+        public async Task<IActionResult> SignUpWithNoVerify([FromForm] SignUpWithNoVerifyCommandRequestModel request)
+        {
+            var response = await _mediator.Send(request);
+            return Result(response);
+        }
         [HttpPost(Router.AuthenticationRouting.SignIn)]
         public async Task<IActionResult> SignIn([FromForm] SignInCommandRequestModel request)
         {
@@ -21,7 +27,7 @@ namespace BaseArchitecture.Presentation.Controllers
             return Result(response);
         }
         [HttpPost(Router.AuthenticationRouting.ResendOtp)]
-        public async Task<IActionResult> ResendOtp([FromBody] ResendOtpCommandRequestModel request)
+        public async Task<IActionResult> ResendOtp([FromForm] ResendOtpCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);

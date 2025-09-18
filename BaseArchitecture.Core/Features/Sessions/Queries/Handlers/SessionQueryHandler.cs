@@ -7,13 +7,17 @@ using Microsoft.Extensions.Localization;
 using PhysiotherapistProject.Core.Features.Sessions.Dto;
 using PhysiotherapistProject.Core.Features.Sessions.Queries.RequestModels;
 using PhysiotherapistProject.Service.ServiceInterfaces;
+using static BaseArchitecture.Domain.Enums.EnumExtensions;
 
 namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
 {
-    public class SessionQueryHandler : ResponseHandler, IRequestHandler<GetSessionByIdQueryRequestModel, Response<SessionDto>>,
+    public class SessionQueryHandler : ResponseHandler, IRequestHandler<GetSessionByIdQueryRequestModel, Response<SessionFullDataDto>>,
                                                         IRequestHandler<GetSessionByCourseIdQueryRequestModel, Response<List<SessionDto>>>,
                                                         IRequestHandler<GetSessionListQueryRequestModel, Response<List<SessionDto>>>,
-                                                        IRequestHandler<GetSessionPaginatedListQueryRequestModel, Response<PaginatedList<SessionDto>>>
+                                                        IRequestHandler<GetSessionPaginatedListQueryRequestModel, Response<PaginatedList<SessionDto>>>,
+                                                        IRequestHandler<GetSessionsStatisticsQueryRequestModel, Response<SessionStatisticsDto>>,
+                                                        IRequestHandler<GetTodaySessionsQueryRequestModel, Response<List<SessionFullDataDto>>>,
+                                                        IRequestHandler<GetSessionsWithDateFilterQueryRequestModel, Response<List<SessionFullDataDto>>>
     {
         #region Fields
         private readonly IStringLocalizer<AppLocalization> _stringLocalizer;
@@ -34,12 +38,12 @@ namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
         #endregion
 
         #region Methods
-        public async Task<Response<SessionDto>> Handle(GetSessionByIdQueryRequestModel request, CancellationToken cancellationToken)
+        public async Task<Response<SessionFullDataDto>> Handle(GetSessionByIdQueryRequestModel request, CancellationToken cancellationToken)
         {
             var Session = await _sessionService.GetByIdAsync(request.Id);
             if (Session == null)
-                return NotFound<SessionDto>(_stringLocalizer[AppLocalizationKeys.NotFound]);
-            var CourseDto = _mapper.Map<SessionDto>(Session);
+                return NotFound<SessionFullDataDto>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var CourseDto = _mapper.Map<SessionFullDataDto>(Session);
             return Success(CourseDto, _stringLocalizer[AppLocalizationKeys.Success]);
         }
 
@@ -70,6 +74,42 @@ namespace PhysiotherapistProject.Core.Features.Courses.Queries.Handlers
                 return NotFound<List<SessionDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
             var CourseDto = _mapper.Map<List<SessionDto>>(Sessions);
             return Success(CourseDto, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<SessionStatisticsDto>> Handle(GetSessionsStatisticsQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var TodayDate = DateTime.Now.Date;
+            var ToDaySessions = await _sessionService.GetSessionsForThisDateAsync(TodayDate);
+            if (ToDaySessions == null)
+                return NotFound<SessionStatisticsDto>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var PatientsIds = ToDaySessions.Select(s => s.Course.UserId).Distinct();
+            var result = new SessionStatisticsDto
+            {
+                TotalSessionToday = ToDaySessions.Count,
+                TotalCompletedToday = ToDaySessions.Count(s => s.StatusCode == (int)SessionStatusEnum.Attended),
+                TotalCancelledSessionToday = ToDaySessions.Count(s => s.StatusCode == (int)SessionStatusEnum.Cancelled),
+                TotalPatientToday = PatientsIds.Count()
+            };
+            return Success(result, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<List<SessionFullDataDto>>> Handle(GetTodaySessionsQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var TodayDate = DateTime.Now.Date;
+            var ToDaySessions = await _sessionService.GetSessionsForThisDateAsync(TodayDate);
+            if (ToDaySessions == null)
+                return NotFound<List<SessionFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var result = _mapper.Map<List<SessionFullDataDto>>(ToDaySessions);
+            return Success(result, _stringLocalizer[AppLocalizationKeys.Success]);
+        }
+
+        public async Task<Response<List<SessionFullDataDto>>> Handle(GetSessionsWithDateFilterQueryRequestModel request, CancellationToken cancellationToken)
+        {
+            var Sessions = await _sessionService.GetSessionsByDateFiltersAsync(request.StartDate, request.EndDate, request.Name);
+            if (Sessions == null)
+                return NotFound<List<SessionFullDataDto>>(_stringLocalizer[AppLocalizationKeys.NotFound]);
+            var SessionsDto = _mapper.Map<List<SessionFullDataDto>>(Sessions);
+            return Success(SessionsDto, _stringLocalizer[AppLocalizationKeys.Success], new { TotalCount = SessionsDto.Count });
         }
         #endregion
     }

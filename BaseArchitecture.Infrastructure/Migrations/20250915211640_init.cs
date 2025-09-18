@@ -49,6 +49,7 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleterName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NationalNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -184,9 +185,10 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartHour = table.Column<int>(type: "int", nullable: false),
-                    EndHour = table.Column<int>(type: "int", nullable: false),
-                    ClinicMangerId = table.Column<int>(type: "int", nullable: false),
+                    StartHour = table.Column<TimeSpan>(type: "time", nullable: true),
+                    EndHour = table.Column<TimeSpan>(type: "time", nullable: true),
+                    ClinicMangerId = table.Column<int>(type: "int", nullable: true),
+                    ClinicImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -204,8 +206,7 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                         name: "FK_Clinics_AspNetUsers_ClinicMangerId",
                         column: x => x.ClinicMangerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -217,6 +218,7 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     TotalSessions = table.Column<int>(type: "int", nullable: false),
                     TotalCompletedSessions = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    ClinicId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -236,6 +238,11 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Courses_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -249,6 +256,7 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusLocalization = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusCode = table.Column<int>(type: "int", nullable: false),
+                    SessionTime = table.Column<TimeSpan>(type: "time", nullable: true),
                     TreatmentNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -317,6 +325,11 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 column: "ClinicMangerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Courses_ClinicId",
+                table: "Courses",
+                column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Courses_UserId",
                 table: "Courses",
                 column: "UserId");
@@ -346,9 +359,6 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Clinics");
-
-            migrationBuilder.DropTable(
                 name: "Sessions");
 
             migrationBuilder.DropTable(
@@ -356,6 +366,9 @@ namespace PhysiotherapistProject.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Clinics");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

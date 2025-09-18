@@ -9,6 +9,7 @@ namespace PhysiotherapistProject.Core.Mapping.Entities.SessionMapping
             MapFromSessionToSessionDto();
             MapFromAddSessionCommandRequestModelToSession();
             MapFromUpdateSessionCommandRequestModelToSession();
+            MappingFromSessionToSessionFullDataDto();
         }
     }
 }

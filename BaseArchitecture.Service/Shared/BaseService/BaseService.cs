@@ -35,7 +35,7 @@ namespace BaseArchitecture.Service.Shared.BaseService
                             .ToListAsync();
             return List;
         }
-        public async virtual Task<TEntity> GetByIdAsync(int id)
+        public async virtual Task<TEntity?> GetByIdAsync(int id)
         {
             var Entity = await _baseRepository
                             .GetByIdAsync(id);

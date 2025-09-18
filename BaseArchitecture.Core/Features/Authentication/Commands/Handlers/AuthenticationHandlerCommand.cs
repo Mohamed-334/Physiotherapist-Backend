@@ -15,6 +15,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 {
     public class AuthenticationHandlerCommand : ResponseHandler,
                                         IRequestHandler<SignUpCommandRequestModel, Response<string>>,
+                                        IRequestHandler<SignUpWithNoVerifyCommandRequestModel, Response<string>>,
                                         IRequestHandler<ChangePasswordCommandRequestModel, Response<string>>,
                                         IRequestHandler<SignInCommandRequestModel, Response<string>>,
                                         IRequestHandler<OtpVerificationCommandRequestModel, Response<string>>,
@@ -56,7 +57,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
 
             if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.NoImage])
                 User.ProfileImage = null;
-            User.ProfileImage = ImageUploadingResult;
+            else
+                User.ProfileImage = ImageUploadingResult;
             var result = await _authenticationService.SignUpAsync(User, request.Password);
             if (!result.Succeeded)
             {
@@ -94,6 +96,43 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             return Success<string>(_stringLocalizer[AppLocalizationKeys.OtpGenerated]);
         }
 
+        public async Task<Response<string>> Handle(SignUpWithNoVerifyCommandRequestModel request, CancellationToken cancellationToken)
+        {
+            var User = _mapper.Map<User>(request);
+            var ImageUploadingResult = await _fileService.UploadImage("Users", request.ProfileImageFile);
+            if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.FailedToUploadImage])
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToUploadImage]);
+
+            if (ImageUploadingResult == _stringLocalizer[AppLocalizationKeys.NoImage])
+                User.ProfileImage = null;
+            else
+                User.ProfileImage = ImageUploadingResult;
+            var result = await _authenticationService.SignUpAsync(User, request.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => new ValidationFailure
+                {
+                    ErrorMessage = e.Description,
+                    ErrorCode = e.Code
+
+                }).ToList();
+                throw new ValidationException(errors);
+            }
+            if (await _userService.IsUserInRoleAsync(User, request.Role))
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.RoleIsUsed]);
+            IdentityResult RoleResult;
+            if (request.Role == null)
+                RoleResult = await _userService.AddUserToRoleAsync(User, "Patient");
+            else
+                RoleResult = await _userService.AddUserToRoleAsync(User, request.Role);
+
+            if (!RoleResult.Succeeded)
+                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToAddNewRoles]);
+
+
+            return Success<string>(_stringLocalizer[AppLocalizationKeys.Created]);
+        }
+
         public async Task<Response<string>> Handle(ChangePasswordCommandRequestModel request, CancellationToken cancellationToken)
         {
             var User = await _userService.GetUserByEmailAsync(request.Email);
@@ -121,8 +160,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             if (!PasswordCheck.Succeeded)
                 return Unauthorized<string>(_stringLocalizer[AppLocalizationKeys.PasswordNotCorrect]);
 
-            if (!User.TwoFactorEnabled)
-                return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.EmailNotConfirmed]);
+            //if (!User.TwoFactorEnabled)
+            //    return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.EmailNotConfirmed]);
 
             var AccessToken = await _authenticationService.GenerateTokenAsync(User);
             return Success(AccessToken.Item2);
@@ -188,7 +227,8 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
             var result = await _authenticationService.ResetPasswordAsync(user, request.Password);
             if (!result.Succeeded)
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.ChangePassFailed]);
-            return Success<string>(_stringLocalizer[AppLocalizationKeys.PasswordChanged]);
+            var token = await _authenticationService.GenerateTokenAsync(user);
+            return Success<string>(token.Item2);
         }
 
         public async Task<Response<string>> Handle(ResendOtpCommandRequestModel request, CancellationToken cancellationToken)
@@ -203,7 +243,7 @@ namespace BaseArchitecture.Core.Features.Authentication.Commands.Handlers
                "This code will expire in 5 minutes. If you did not request it, please ignore this email.\n\n" +
                "Best regards,\nYour App Team";
 
-            var result = await _emailService.SendEmailAsync(User.Email!, emailMessage, "Reset Password OTP");
+            var result = await _emailService.SendEmailAsync(User.Email!, emailMessage, "Reset OTP");
             if (result == _stringLocalizer[AppLocalizationKeys.SendEmailFailed] || string.IsNullOrEmpty(otp))
                 return BadRequest<string>(_stringLocalizer[AppLocalizationKeys.FailedToGenerateOtp]);
 

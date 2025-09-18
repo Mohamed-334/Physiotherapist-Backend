@@ -39,10 +39,7 @@ namespace PhysiotherapistProject.Core.Features.Courses.Commands.Validator
             RuleFor(x => x.SessionDate)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.SessionNumber)
-                .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
-                .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
-            RuleFor(x => x.UserCourseId)
+            RuleFor(x => x.CourseId)
                 .NotEmpty().WithMessage(_stringLocalizer[AppLocalizationKeys.NotEmpty])
                 .NotNull().WithMessage(_stringLocalizer[AppLocalizationKeys.Required]);
         }

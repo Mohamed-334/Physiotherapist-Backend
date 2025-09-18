@@ -22,10 +22,28 @@ namespace PhysiotherapistProject.Presentation.Controllers
             var response = await _mediator.Send(new GetSessionListQueryRequestModel());
             return Result(response);
         }
+        [HttpPost(Router.SessionRouting.GetListByDateFilter)]
+        public async Task<IActionResult> GetListByDateFilter([FromBody] GetSessionsWithDateFilterQueryRequestModel filter)
+        {
+            var response = await _mediator.Send(filter);
+            return Result(response);
+        }
         [HttpGet(Router.SessionRouting.GetByCourseId)]
         public async Task<IActionResult> GetByCourseId([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetSessionByCourseIdQueryRequestModel(id));
+            return Result(response);
+        }
+        [HttpGet(Router.SessionRouting.GetSessionsStatistics)]
+        public async Task<IActionResult> GetSessionsStatistics()
+        {
+            var response = await _mediator.Send(new GetSessionsStatisticsQueryRequestModel());
+            return Result(response);
+        }
+        [HttpGet(Router.SessionRouting.GetTodaySessions)]
+        public async Task<IActionResult> GetTodaySessions()
+        {
+            var response = await _mediator.Send(new GetTodaySessionsQueryRequestModel());
             return Result(response);
         }
         [HttpPost(Router.SessionRouting.GetPaginatedList)]

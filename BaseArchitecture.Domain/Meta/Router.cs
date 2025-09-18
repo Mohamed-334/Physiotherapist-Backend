@@ -8,6 +8,7 @@
         {
             public const string Prefix = Root + "Authentication/";
             public const string SignUp = Prefix + "SignUp";
+            public const string SignUpWithNoVerify = Prefix + "SignUpWithNoVerify";
             public const string SignIn = Prefix + "SignIn";
             public const string ResendOtp = Prefix + "ResendOtp";
             public const string VerifyRegistrationOtp = Prefix + "VerifyRegistrationOtp";
@@ -60,7 +61,10 @@
             public const string Prefix = Root + "Session/";
             public const string GetById = Prefix + "GetById/{id}";
             public const string GetList = Prefix + "GetList";
+            public const string GetListByDateFilter = Prefix + "GetListByDateFilter";
             public const string GetByCourseId = Prefix + "GetByCourseId/{id}";
+            public const string GetSessionsStatistics = Prefix + "GetSessionsStatistics";
+            public const string GetTodaySessions = Prefix + "GetTodaySessions";
             public const string GetPaginatedList = Prefix + "GetPaginatedList";
             public const string Create = Prefix + "Create";
             public const string Update = Prefix + "Update";
