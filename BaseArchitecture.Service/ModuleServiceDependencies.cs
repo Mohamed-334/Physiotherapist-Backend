@@ -21,6 +21,7 @@ namespace BaseArchitecture.Service
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<IClinicService, ClinicService>();
+            services.AddScoped<IReportService, ReportService>();
             return services;
         }
     }

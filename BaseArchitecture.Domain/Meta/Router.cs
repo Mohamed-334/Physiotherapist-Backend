@@ -71,6 +71,11 @@
             public const string Delete = Prefix + "Delete/{id}";
             public const string SoftDeleteAndActivate = Prefix + "SoftDeleteAndActivate/{id}";
         }
+        public static class ReportRouting
+        {
+            public const string Prefix = Root + "Report/";
+            public const string Create = Prefix + "Create";
+        }
         public static class UserCourseRouting
         {
             public const string Prefix = Root + "UserCourse/";
