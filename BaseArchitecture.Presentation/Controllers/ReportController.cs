@@ -11,7 +11,7 @@ namespace PhysiotherapistProject.Presentation.Controllers
     {
 
         [HttpPost(Router.ReportRouting.Create)]
-        public async Task<IActionResult> Create([FromBody] AddReportCommandRequestModel request)
+        public async Task<IActionResult> Create([FromForm] AddReportCommandRequestModel request)
         {
             var response = await _mediator.Send(request);
             return Result(response);

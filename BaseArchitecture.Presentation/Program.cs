@@ -7,6 +7,7 @@ using BaseArchitecture.Infrastructure;
 using BaseArchitecture.Infrastructure.Context;
 using BaseArchitecture.Infrastructure.Seeder;
 using BaseArchitecture.Service;
+using LMS.Infrastructure.Context.Interceptors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -69,9 +70,11 @@ namespace BaseArchitecture.Presentation
             #region Context Registration
 
             // Register the DbContext with the connection string from configuration
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddDbContext<AppDbContext>((sp, options) =>
             {
+                var interceptor = sp.GetRequiredService<LoggerSaveChangesInterceptor>();
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Physiotherapist"));
+                options.AddInterceptors(interceptor);
             });
 
             #endregion

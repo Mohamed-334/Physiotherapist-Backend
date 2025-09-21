@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PhysiotherapistProject.Domain.Entities;
+using PhysiotherapistProject.Domain.Entities.Logger;
 
 namespace BaseArchitecture.Infrastructure.Context
 {
@@ -16,6 +17,7 @@ namespace BaseArchitecture.Infrastructure.Context
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<Logger> Loggers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
