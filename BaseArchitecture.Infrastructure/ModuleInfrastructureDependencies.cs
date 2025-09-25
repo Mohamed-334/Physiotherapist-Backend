@@ -1,6 +1,6 @@
-﻿using BaseArchitecture.Infrastructure.Shared.BaseRepository;
+﻿using BaseArchitecture.Infrastructure.Context.Interceptors;
+using BaseArchitecture.Infrastructure.Shared.BaseRepository;
 using BaseArchitecture.Infrastructure.Shared.Interfaces;
-using LMS.Infrastructure.Context.Interceptors;
 using Microsoft.Extensions.DependencyInjection;
 using PhysiotherapistProject.Infrastructure.Repository;
 using PhysiotherapistProject.Infrastructure.RepositoryInterfaces;
